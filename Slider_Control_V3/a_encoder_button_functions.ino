@@ -66,16 +66,16 @@ void clicked() {                        //if the button on the encoder was click
   //global values adjustment logic
   else if (menu == globalValuesID){
     
-    if (subMenu == returnSubMenuID){    //if we click on return send us back to the home menu
+    if (counter == 0){    //if we click on return send us back to the home menu
       menu = homeMenuID;
     }
 
     
-    else if (subMenu == lengthSubMenuID && changeValue == false){         //put controller in mode to edit speed value
+    else if (counter == 1 && changeValue == false){         //put controller in mode to edit speed value
       changeValue = true;
       changeCounter = length_Inches;                        //speed is now loaded speed plus the counted encoder ticks
     }
-    else if (subMenu == lengthSubMenuID && changeValue == true){          //exit edit speed mode
+    else if (counter == 1 && changeValue == true){          //exit edit speed mode
        length_Inches = changeCounter;                       //update the speed
        EEPROM.put(length_Inches_eeAddress, length_Inches);  //send value to eeprom
        LENGTH = length_Inches * Steps_Per_inch;             //converts length into steps
@@ -89,10 +89,10 @@ void clicked() {                        //if the button on the encoder was click
     //TUNE menu adjustment logic
     else if (menu > menuTuneID){
     
-      if (subMenu == returnSubMenuID){    //if we click on return send us back to the home menu
+      if (counter == 0){    //if we click on return send us back to the home menu
         menu = menu - menuTuneID;
       }
-      else if (subMenu == steppersSubMenuID){         //put controller in mode to edit speed value
+      else if (counter == 1){         //put controller in mode to edit speed value
         if (stepperState == " disabled"){
           stepperState = " enabled ";
         }
@@ -103,7 +103,7 @@ void clicked() {                        //if the button on the encoder was click
         enableSteppers();               
       }
   
-      else if (subMenu == jogSubMenuID){
+      else if (counter == 2){
         runReset();
       }
   }
@@ -115,50 +115,50 @@ void clicked() {                        //if the button on the encoder was click
   else if (menu == timeControlID){
        
     
-    if (subMenu == returnSubMenuID){    //if we click on return, send us back to the home menu
+    if (counter == 0){    //if we click on return, send us back to the home menu
       menu = homeMenuID;
     }
 
     
-    else if (subMenu == secondsSubMenuID && changeValue == false){         //put controller in mode to edit seconds value
+    else if (counter == 1 && changeValue == false){         //put controller in mode to edit seconds value
       changeValue = true;
       changeCounter = timeControl_seconds;                  //the encoder changeCounter value is now equal to timeControl_seconds and will be increased by the encoder function
     }
-    else if (subMenu == secondsSubMenuID && changeValue == true){                       //exit edit seconds mode
+    else if (counter == 1 && changeValue == true){                       //exit edit seconds mode
        timeControl_seconds = changeCounter;                              //update the seconds with the tracked value
        EEPROM.put(timeControl_seconds_eeAddress, timeControl_seconds);   //send value to eeprom
        changeCounter = 0;                                                //reset change counter to zero for next time
        changeValue = false;                                              //termiate edit mode
     }
 
-    else if (subMenu == minutesSubMenuID && changeValue == false){         //put controller in mode to edi value
+    else if (counter == 2 && changeValue == false){         //put controller in mode to edi value
       changeValue = true;
       changeCounter = timeControl_minutes;                  //the change counter is now set to the value and is incremented by encoder()
     }
-    else if (subMenu == minutesSubMenuID && changeValue == true){                       //exit edit mode
+    else if (counter == 2 && changeValue == true){                       //exit edit mode
        timeControl_minutes = changeCounter;                              //update the value
        EEPROM.put(timeControl_minutes_eeAddress, timeControl_minutes);   //send value to eeprom
        changeCounter = 0;                                                //reset change counter to zero for next time
        changeValue = false;                                              //termiate edit mode
     }
 
-    else if (subMenu == hoursSubMenuID && changeValue == false){          //put controller in mode to edi value
+    else if (counter == 3 && changeValue == false){          //put controller in mode to edi value
       changeValue = true;
       changeCounter = timeControl_hours;                     //the change counter is now set to the value and is incremented by encoder()
     }
-    else if (subMenu == hoursSubMenuID && changeValue == true){                     //exit edit s mode
+    else if (counter == 3 && changeValue == true){                     //exit edit s mode
        timeControl_hours = changeCounter;                              //update the value
        EEPROM.put(timeControl_hours_eeAddress, timeControl_hours);     //send value to eeprom
        changeCounter = 0;                                              //reset change counter to zero for next time
        changeValue = false;                                            //termiate edit mode
     }
 
-    else if (subMenu == angleSubMenuID && changeValue == false){           //put controller in mode to edit speed value
+    else if (counter == 4 && changeValue == false){           //put controller in mode to edit speed value
       changeValue = true;
       negative = true;
       changeCounter = timeControl_rDistance;                  //speed is now loaded speed plus the counted encoder ticks
     }
-    else if (subMenu == angleSubMenuID && changeValue == true){                         //exit edit mode
+    else if (counter == 4 && changeValue == true){                         //exit edit mode
       negative = false;
        timeControl_rDistance = changeCounter;                              //update the value
        EEPROM.put(timeControl_rDistance_eeAddress, timeControl_rDistance); //send value to eeprom
@@ -166,7 +166,7 @@ void clicked() {                        //if the button on the encoder was click
        changeValue = false;                                                //termiate edit mode
     }
     
-    else if (subMenu == directionSubMenuID){                      //if clicked on direction -> FLIP
+    else if (counter == 5){                      //if clicked on direction -> FLIP
       if (movementDirection == "  right"){
         movementDirection = "  left ";
       }
@@ -175,12 +175,12 @@ void clicked() {                        //if the button on the encoder was click
       }    
     }
 
-    else if (subMenu == tuneSubMenuID){                     //if clicked on Run then run the configured operation
+    else if (counter == 6){                     //if clicked on Run then run the configured operation
         menu = menuTuneID + menu;
         counter = 0;
       }
     
-    else if (subMenu == runSubMenuID){                     //if clicked on Run then run the configured operation
+    else if (counter == 7){                     //if clicked on Run then run the configured operation
       timeControl();                            //run the operation
     }
   }
@@ -190,16 +190,16 @@ void clicked() {                        //if the button on the encoder was click
   else if (menu == speedControlID){
     
     
-    if (subMenu == returnSubMenuID){    //if we click on return send us back to the home menu
+    if (counter == 0){    //if we click on return send us back to the home menu
       menu = homeMenuID;
     }
 
     
-    else if (subMenu == speedSubMenuID && changeValue == false){         //put controller in edit mode
+    else if (counter == 1 && changeValue == false){         //put controller in edit mode
       changeValue = true;
       changeCounter = speedControl_counter;             //speed is now loaded speed plus the counted encoder ticks
     }
-    else if (subMenu == speedSubMenuID && changeValue == true){                     //exit edit mode
+    else if( counter == 1 && changeValue == true){                     //exit edit mode
       speedControl_speed = pow(changeCounter,3) * .0006;                      //update the value
       speedControl_counter = changeCounter;
       EEPROM.put(speedControl_speed_eeAddress, speedControl_speed);    //send value to eeprom
@@ -208,12 +208,12 @@ void clicked() {                        //if the button on the encoder was click
       changeValue = false;                                             //termiate edit mode
     }
 
-    else if (subMenu == angleSubMenuID && changeValue == false){                    //put controller in edit mode
+    else if (counter == 2 && changeValue == false){                    //put controller in edit mode
       negative = true;
       changeValue = true;                                              
       changeCounter = speedControl_rDistance;          //angle is now loaded angle plus the counted encoder ticks
     }    
-    else if (subMenu == angleSubMenuID && changeValue == true){                          //exit edit angle mode
+    else if (counter == 2 && changeValue == true){                          //exit edit angle mode
       negative = false;
       speedControl_rDistance = changeCounter;                               //update the stored angle
       EEPROM.put(speedControl_rDistance_eeAddress, speedControl_rDistance); //send new angle to eeprom
@@ -222,7 +222,7 @@ void clicked() {                        //if the button on the encoder was click
     }
 
     
-    else if (subMenu == directionSubMenuID){                      //if clicked on direction -> FLIP
+    else if (counter == 3){                      //if clicked on direction -> FLIP
       if (movementDirection == "  right"){
         movementDirection = "  left ";
       }
@@ -231,12 +231,12 @@ void clicked() {                        //if the button on the encoder was click
       }    
     }
 
-    else if (subMenu == tuneSubMenuID){                     //if clicked on Run then run the configured operation
+    else if (counter == 4){                     //if clicked on Run then run the configured operation
         menu = menuTuneID + menu;
         counter = 0;
       }    
     
-    else if (subMenu == runSubMenuID){                     //if clicked on Run then run the configured operation
+    else if (counter == 5){                     //if clicked on Run then run the configured operation
       speedControl();                           //run the operation
     }
   }
