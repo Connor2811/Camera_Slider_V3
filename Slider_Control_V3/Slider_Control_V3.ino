@@ -245,7 +245,7 @@ void setup() {
 }
 
 void loop() {
-  Serial.println(menu);
+  //Serial.println(menu);
 //MENU ORGANIZATION 
   //sends the program to the function that matches the current desired screen
   if (menu == homeMenuID){
