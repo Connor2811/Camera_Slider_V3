@@ -1,0 +1,5 @@
+{
+    "board": "arduino:avr:nano",
+    "configuration": "cpu=atmega328old",
+    "sketch": "Slider_Control_V3\\Slider_Control_V3.ino"
+}
