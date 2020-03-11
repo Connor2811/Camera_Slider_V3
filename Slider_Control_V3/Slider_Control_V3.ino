@@ -15,6 +15,7 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 //char for logo display
+/*
 static const unsigned char PROGMEM image_data_logo[] = {
  0x00, 0x00, 0x0f, 0x00, 0x00, 0x00, 0x00, 
     0x00, 0x00, 0x0f, 0x60, 0x00, 0x00, 0x00, 
@@ -111,7 +112,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
     0x0f, 0x0f, 0x39, 0x03, 0x09, 0x80
 };
   
-
+*/
 //ENCODER
  #define outputA 3   //first data input pin for the encoder
  #define outputB 4   //second data input pin for the encoder
@@ -163,53 +164,53 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 
   //Global EEPROM
   long length_Inches = 30;                  //length of the slider rail in inches
-  int length_Inches_eeAddress = 0;          //Location of information in eeprom
+  #define length_Inches_eeAddress  0          //Location of information in eeprom
 
   long Steps_Per_inch = 2032;
-  int Steps_Per_inch_eeAddress = 44;
+  #define Steps_Per_inch_eeAddress 44
 
   
   //speedControl EEPROM
   float speedControl_speed = 50.00;             //speed of the horizontal slider while in speedControl Mode in inches per minute
-  int speedControl_speed_eeAddress = 4;     //Location of information in eeprom
+  #define speedControl_speed_eeAddress  4     //Location of information in eeprom
 
   int speedControl_counter = 10;             //speed of the horizontal slider while in speedControl Mode in inches per minute
-  int speedControl_counter_eeAddress = 48;     //Location of information in eeprom
+  #define speedControl_counter_eeAddress 48    //Location of information in eeprom
   
   long speedControl_rDistance = 0;          //amount in degrees to rotate camera over one slide operation in speed control mode
-  int speedControl_rDistance_eeAddress = 8; //Location of information in eeprom
+  #define speedControl_rDistance_eeAddress 8 //Location of information in eeprom
 
 
   //timeControl EEPROM 
   unsigned long timeControl_seconds = 30;           //speed of the horizontal slider while in speedControl Mode
-  int timeControl_seconds_eeAddress = 28;  //Location of information in eeprom
+  #define timeControl_seconds_eeAddress 28  //Location of information in eeprom
 
   unsigned long timeControl_minutes = 0;            //speed of the horizontal slider while in speedControl Mode
-  int timeControl_minutes_eeAddress = 32;  //Location of information in eeprom
+  #define timeControl_minutes_eeAddress 32  //Location of information in eeprom
 
   unsigned long timeControl_hours = 0;              //speed of the horizontal slider while in speedControl Mode
-  int timeControl_hours_eeAddress = 36;    //Location of information in eeprom
+  #define timeControl_hours_eeAddress 36    //Location of information in eeprom
   
   long timeControl_rDistance = 0;          //amount in degrees to rotate camera over one slide operation in speed control mode
-  int timeControl_rDistance_eeAddress = 40;//Location of information in eeprom
+  #define timeControl_rDistance_eeAddress 40//Location of information in eeprom
 
 
   //motionControl EEPROM
   double motionControl_dAway = 4.;          //Distance of object to be tracked tangent to the rail
-  int  motionControl_dAway_eeAddress = 12; //Location of information in eeprom
+  #define  motionControl_dAway_eeAddress 12 //Location of information in eeprom
 
   double motionControl_dDown= 4.;           //distance of the tracked object from theright side and parallel to the rail
-  int  motionControl_dDown_eeAddress = 16; //Location of information in eeprom
+  #define  motionControl_dDown_eeAddress 16 //Location of information in eeprom
 
   long motionControl_speed= 50;            //speed of the shot
-  int  motionControl_speed_eeAddress = 20; //Location of information in eeprom
+  #define  motionControl_speed_eeAddress 20 //Location of information in eeprom
 
   long motionControl_time= 50;            //time in seconds to traverse
-  int  motionControl_time_eeAddress = 24; //Location of information in eeprom
+  #define  motionControl_time_eeAddress 24 //Location of information in eeprom
 
   
 // Stored Values
-  float LENGTH = length_Inches * Steps_Per_inch;  //converts length into steps
+  long LENGTH = length_Inches * Steps_Per_inch;  //converts length into steps
   String movementDirection = "  left ";            //sets direction of travel, this is flopped after each operation
   int changeValue = false;                       //determines whether to configure the operation values or scroll down a menu, this is flipped by clicking encoder while over value
   int changeCounter = 0;                         // if change value is true "changeCounter" will be changed instead of the normal "counter" value
@@ -247,10 +248,10 @@ void setup() {
     Serial.println(F("SSD1306 allocation failed"));
     for(;;);                                       // Don't proceed, loop forever
   }
-  display.clearDisplay();
-  display.drawBitmap(40, 16, image_data_logo, 53, 48, 1);
-  display.display();
-  delay(3000);
+ // display.clearDisplay();
+ // display.drawBitmap(40, 16, image_data_logo, 53, 48, 1);
+  //display.display();
+  //delay(3000);
    // display.cp437(true);
   
 //ENCODER

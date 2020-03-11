@@ -295,7 +295,49 @@ void motionControl(){
 
           
     }
-  }  
+  }
+
+
+//reverse movement and reset to original location
+    float angleTracking = 1;
+    if (movementDirection == "  right"){ //check desired camera direction and flip the horizontal and rotation direction if needed
+    digitalWrite(horizontalDirPin, LOW);  //moveright
+    digitalWrite(rotationlDirPin, LOW);   //move anticlockwise
+    if (timeControl_rDistance < 0){       //rotate camera opposite direction if degree value is negative
+      digitalWrite(rotationlDirPin, HIGH);
+    }
+  }
+    
+    if (movementDirection == "  left "){
+    digitalWrite(horizontalDirPin, HIGH);
+    digitalWrite(rotationlDirPin, HIGH);
+    if (timeControl_rDistance < 0){
+      digitalWrite(rotationlDirPin, LOW);
+   }
+  }
+
+  for (long i = 0; i < LENGTH; i++){
+        
+    encoder();                                  //check if the encoder has changed direction and if it has exit the for loop
+    if (cancel != counter){
+      i = LENGTH;
+    }
+    
+   if ( i  > angleTracking*(LENGTH/(startAngle* 8.8888))) {            //step the camera angle motor a percentage of the time so it goes a percent of the total distace
+     digitalWrite(rotationStepPin, HIGH); 
+     digitalWrite(horizontalStepPin,HIGH);
+     digitalWrite(horizontalStepPin, LOW);  
+      digitalWrite(rotationStepPin, LOW);
+      angleTracking ++; 
+    }
+    else { 
+      digitalWrite( horizontalStepPin ,HIGH);  
+      digitalWrite(horizontalStepPin , LOW);    
+    }  
+      delayMicroseconds(50);
+  }
+
+    
   
   digitalWrite(disablePin, HIGH);    //turn everything off and set the running path to false.
   runningPath = false;
