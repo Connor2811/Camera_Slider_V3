@@ -250,7 +250,7 @@ void setup() {
   display.clearDisplay();
   display.drawBitmap(40, 16, image_data_logo, 53, 48, 1);
   display.display();
-  delay(1000);
+  delay(3000);
    // display.cp437(true);
   
 //ENCODER
