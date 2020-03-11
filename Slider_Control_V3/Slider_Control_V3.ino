@@ -234,15 +234,7 @@ void setup() {
   Serial.begin(9600);
 
 //OLED DISPLAY  
- // display.clearDisplay();                    //Display Logo
- /*
-  display.drawBitmap(
-    (display.width()  - LOGO_WIDTH ) / 2,
-    (display.height() - LOGO_HEIGHT) / 2,
-    logo_bmp, LOGO_WIDTH, LOGO_HEIGHT, 1);
-  display.display();
-  delay(1000);
-    */                                               // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
+ // display.clearDisplay();                    //Display Logo                                             // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
     Serial.println(F("SSD1306 allocation failed"));
     for(;;);                                       // Don't proceed, loop forever
@@ -251,7 +243,7 @@ void setup() {
   display.drawBitmap(40, 16, image_data_logo, 53, 48, 1);
   display.display();
   delay(3000);
-   // display.cp437(true);
+  display.cp437(true);
   
 //ENCODER
 
