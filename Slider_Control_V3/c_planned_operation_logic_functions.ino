@@ -255,6 +255,7 @@ void motionControl(){
       }    
     }  
 
+    //here we are past the 90 degree point and the math needs to change, otherwise we would be calculating negatives
     else { 
       if(x == true){
         x = false;
