@@ -41,33 +41,27 @@ void motionControl(){
   int flip = true;
   float dTravled = 0;
   int x = true;
-  pause =(((((length_Inches/speedControl_speed)*60)) * 1000000L) )/LENGTH;
+  pause =(((motionControl_seconds) * 1000000L) + (motionControl_minutes * 60000000L) + (motionControl_hours * 3600000000L))/LENGTH;
+  float myPause = pause/22.4;
   cancel = counter;                        //set cancel equal to the current counter value
   delay (1000);                                //wait a sec to debounce
   
   for (float i = 0; i < LENGTH; i++){           //this for loop controls all the actual motor controll
     if (dTravled < motionControl_dDown){
-     // Serial.println(currentAngle );
-      //Serial.println(calculatedAngle);
-     // Serial.println(calculatedAngle - currentAngle);
-      
-    //  Serial.println("");
       
       if (((atan(motionControl_dAway/(motionControl_dDown - dTravled))*(180/ M_PI))- currentAngle)*4 > .1125){   //if the angle diffrence between the ideal current degree and the actual degree is greator than the size of a single step, than take a step.
-        //for(i=0; i<4,i++){
           digitalWrite(rotationStepPin, HIGH);   
           digitalWrite(horizontalStepPin,HIGH);   
           digitalWrite(rotationStepPin, LOW);   
           digitalWrite(horizontalStepPin, LOW);
         angleStepsTaken ++;
         currentAngle = atan(motionControl_dAway/(motionControl_dDown - dTravled))*(180/ M_PI);
-        //}   
       }
       else {
         digitalWrite(horizontalStepPin, HIGH);
         digitalWrite(horizontalStepPin, LOW);   
       } 
-      for(long i=0; i < pause/8; i++){
+      for(long i=0; i < myPause; i++){
         delayMicroseconds(8);
       }                //velocity delay controls how fast the camera moves, small value is fast and large value is slow
   
@@ -88,30 +82,22 @@ void motionControl(){
         x = false;
         currentAngle = 90;
       }
-       
-     // Serial.println(atan(motionControl_dAway/(dTravled - motionControl_dDown))*(180/ M_PI));//after the camera has reached 90 degrees to the object the angles are flipped 
-      //Serial.println(calculatedAngle);//after the camera has reached 90 degrees to the object the angles are flipped
-       
-     // Serial.println(" ");//after the camera has reached 90 degrees to the object the angles are flipped 
-
       
       if ((currentAngle - (atan(motionControl_dAway/(dTravled - motionControl_dDown))*(180/ M_PI)))*4 > .1125){   //if the angle diffrence between the ideal current degree and the actual degree is greator than the size of a single step, than take a step.
-        //for(i=0; i<4,i++){
           digitalWrite(rotationStepPin, HIGH);   
           digitalWrite(horizontalStepPin,HIGH);   
           digitalWrite(rotationStepPin, LOW);   
           digitalWrite(horizontalStepPin, LOW);
         angleStepsTaken ++;
-        currentAngle = atan(motionControl_dAway/(dTravled - motionControl_dDown))*(180/ M_PI);
-        //}   
+        currentAngle = atan(motionControl_dAway/(dTravled - motionControl_dDown))*(180/ M_PI);  
       }
       else {
         digitalWrite(horizontalStepPin, HIGH);
         digitalWrite(horizontalStepPin, LOW);   
       } 
-      for(long i=0; i < pause/8; i++){
+      for(long i=0; i < myPause; i++){
         delayMicroseconds(8);
-      }                //velocity delay controls how fast the camera moves, small value is fast and large value is slow
+      }                
   
       dTravled = (i/2032);
       calculatedAngle = atan(motionControl_dAway/(dTravled - motionControl_dDown))*(180/ M_PI);
@@ -125,8 +111,7 @@ void motionControl(){
     }
   }  
   returnToStart();
-  digitalWrite(disablePin, HIGH);    //turn everything off and set the running path to false.
-  runningPath = false;
+  finishOp();
 }
 
 

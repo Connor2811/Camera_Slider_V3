@@ -64,7 +64,10 @@ void clicked() {                        //if the button on the encoder was click
        menu = motionControlID;
         EEPROM.get(motionControl_dAway_eeAddress, motionControl_dAway);           //load in EEPROM value for this modes settings
         EEPROM.get(motionControl_dDown_eeAddress, motionControl_dDown);           //load in EEPROM value for this modes settings
-        EEPROM.get(motionControl_speed_eeAddress, motionControl_speed);           //load in EEPROM value for this modes settings
+        EEPROM.get(motionControl_seconds_eeAddress, motionControl_seconds);           //load in EEPROM value for this modes settings
+        EEPROM.get(motionControl_minutes_eeAddress, motionControl_minutes);           //load in EEPROM value for this modes settings
+        EEPROM.get(motionControl_hours_eeAddress, motionControl_hours);           //load in EEPROM value for this modes settings
+        
     }
     else if (counter == 3){
        menu = globalValuesID;
@@ -271,18 +274,40 @@ void clicked() {                        //if the button on the encoder was click
        changeValue = false;                                              //termiate edit mode
     }
 
-    else if (counter == 5 && changeValue == false){         //put controller in mode to edit value
+    else if (counter == 5 && changeValue == false){         //put controller in mode to edit seconds value
       changeValue = true;
-      changeCounter = motionControl_speed;                  //value is now loaded value plus the counted encoder ticks
+      changeCounter = motionControl_seconds;                  //the encoder changeCounter value is now equal to timeControl_seconds and will be increased by the encoder function
     }
-    else if (counter == 5 && changeValue == true){                       //exit edit mode
-       motionControl_speed = changeCounter;                              //update the value
-       EEPROM.put(motionControl_speed_eeAddress, motionControl_speed);   //send value to eeprom
+    else if (counter == 5 && changeValue == true){                       //exit edit seconds mode
+       motionControl_seconds = changeCounter;                              //update the seconds with the tracked value
+       EEPROM.put(motionControl_seconds_eeAddress, motionControl_seconds);   //send value to eeprom
        changeCounter = 0;                                                //reset change counter to zero for next time
        changeValue = false;                                              //termiate edit mode
     }
+
+    else if (counter == 6 && changeValue == false){         //put controller in mode to edi value
+      changeValue = true;
+      changeCounter = motionControl_minutes;                  //the change counter is now set to the value and is incremented by encoder()
+    }
+    else if (counter == 6 && changeValue == true){                       //exit edit mode
+       motionControl_minutes = changeCounter;                              //update the value
+       EEPROM.put(motionControl_minutes_eeAddress, motionControl_minutes);   //send value to eeprom
+       changeCounter = 0;                                                //reset change counter to zero for next time
+       changeValue = false;                                              //termiate edit mode
+    }
+
+    else if (counter == 7 && changeValue == false){          //put controller in mode to edi value
+      changeValue = true;
+      changeCounter = motionControl_hours;                     //the change counter is now set to the value and is incremented by encoder()
+    }
+    else if (counter == 7 && changeValue == true){                     //exit edit s mode
+       motionControl_hours = changeCounter;                              //update the value
+       EEPROM.put(motionControl_hours_eeAddress, motionControl_hours);     //send value to eeprom
+       changeCounter = 0;                                              //reset change counter to zero for next time
+       changeValue = false;                                            //termiate edit mode
+    }
     
-    else if (counter == 6){                     //if clicked on Run then run the configured operation
+    else if (counter == 8){                     //if clicked on Run then run the configured operation
       delay (10000);                            //give it a second to debounce the button
       motionControl();                          //run the operation
     }
