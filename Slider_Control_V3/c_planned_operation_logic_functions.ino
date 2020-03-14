@@ -179,7 +179,7 @@ void returnToStart(){
   moveLeft = !moveLeft;
   determineDirection();  
   moveLeft = !moveLeft;
-  pause = 160;
+  pause = 64;              //delay time of return speed (divide by 8 to get delay in microseconds)
   runStandardOp();
 }
 
