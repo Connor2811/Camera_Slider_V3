@@ -15,6 +15,7 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 //char for logo display
+/*
 static const unsigned char PROGMEM image_data_logo[] = {
 0x00, 0x07, 0x80, 0x00, 0x00, 
     0x00, 0x07, 0xb0, 0x00, 0x00, 
@@ -110,7 +111,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
     0x07, 0x1c, 0xc8, 0xc9, 0x80
 };
   
-
+*/
 //ENCODER
  #define outputA 3   //first data input pin for the encoder
  #define outputB 4   //second data input pin for the encoder
@@ -208,7 +209,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 
   
 // Stored Values
-  float LENGTH = length_Inches * Steps_Per_inch;  //converts length into steps
+  long LENGTH = length_Inches * Steps_Per_inch;  //converts length into steps
   String movementDirection = "  left ";            //sets direction of travel, this is flopped after each operation
   bool changeValue = false;                       //determines whether to configure the operation values or scroll down a menu, this is flipped by clicking encoder while over value
   int changeCounter = 0;                         // if change value is true "changeCounter" will be changed instead of the normal "counter" value
