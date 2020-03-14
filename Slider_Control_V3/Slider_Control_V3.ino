@@ -13,7 +13,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 //char for logo display
 static const unsigned char PROGMEM image_data_logo[] = {
-0x00, 0x07, 0x80, 0x00, 0x00, 
+    0x00, 0x07, 0x80, 0x00, 0x00, 
     0x00, 0x07, 0xb0, 0x00, 0x00, 
     0x00, 0x07, 0x36, 0x00, 0x00, 
     0x00, 0x07, 0x06, 0x60, 0x00, 
@@ -184,8 +184,14 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
   unsigned int motionControl_speed= 50;            //speed of the shot
   #define  motionControl_speed_eeAddress 20 //Location of information in eeprom
 
-  unsigned int motionControl_time= 50;            //time in seconds to traverse
-  #define  motionControl_time_eeAddress 24 //Location of information in eeprom
+  unsigned int motionControl_seconds = 30;           //speed of the horizontal slider while in speedControl Mode
+  #define motionControl_seconds_eeAddress 24  //Location of information in eeprom
+
+  unsigned int motionControl_minutes = 0;            //speed of the horizontal slider while in speedControl Mode
+  #define motionControl_minutes_eeAddress 52  //Location of information in eeprom
+
+  unsigned int motionControl_hours = 0;              //speed of the horizontal slider while in speedControl Mode
+  #define motionControl_hours_eeAddress 56    //Location of information in eeprom
 
   
 // Stored Values

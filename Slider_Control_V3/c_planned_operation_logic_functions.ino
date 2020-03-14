@@ -33,6 +33,7 @@ void speedControl(){
 void motionControl(){
   runningPath = true;                       //tell they system we are running an operation
   digitalWrite(disablePin, LOW);            //enable stepper drivers
+  stepperEnabled = true;
   angle = 1; 
   determineDirection();
 
@@ -190,7 +191,7 @@ void runStandardOp(){
     delay (1000);                                //wait a sec to debounce
     angleTracking = 1;
     float myAngle = LENGTH/angle;
-    float myPause = pause/18;
+    float myPause = pause/14;
     
     for (long i = 0; i < LENGTH; i++){           //this for loop controls all the actual motor controll
       encoder();                                 //check if the encoder has changed direction and if it has exit the for loop
