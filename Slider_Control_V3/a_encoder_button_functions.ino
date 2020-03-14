@@ -124,61 +124,60 @@ void clicked() {                        //if the button on the encoder was click
       menu = homeMenuID;
     }
 
+    else if (counter == 1){                     //if clicked on Run then run the configured operation
+        menu = menuTuneID + menu;
+        counter = 0;
+      }
+
+    else if (counter == 2){                      //if clicked on direction -> FLIP
+      moveLeft = !moveLeft;  
+    }
     
-    else if (counter == 1 && changeValue == false){         //put controller in mode to edit seconds value
+    else if (counter == 3 && changeValue == false){         //put controller in mode to edit seconds value
       changeValue = true;
       changeCounter = timeControl_seconds;                  //the encoder changeCounter value is now equal to timeControl_seconds and will be increased by the encoder function
     }
-    else if (counter == 1 && changeValue == true){                       //exit edit seconds mode
+    else if (counter == 3 && changeValue == true){                       //exit edit seconds mode
        timeControl_seconds = changeCounter;                              //update the seconds with the tracked value
        EEPROM.put(timeControl_seconds_eeAddress, timeControl_seconds);   //send value to eeprom
        changeCounter = 0;                                                //reset change counter to zero for next time
        changeValue = false;                                              //termiate edit mode
     }
 
-    else if (counter == 2 && changeValue == false){         //put controller in mode to edi value
+    else if (counter == 4 && changeValue == false){         //put controller in mode to edi value
       changeValue = true;
       changeCounter = timeControl_minutes;                  //the change counter is now set to the value and is incremented by encoder()
     }
-    else if (counter == 2 && changeValue == true){                       //exit edit mode
+    else if (counter == 4 && changeValue == true){                       //exit edit mode
        timeControl_minutes = changeCounter;                              //update the value
        EEPROM.put(timeControl_minutes_eeAddress, timeControl_minutes);   //send value to eeprom
        changeCounter = 0;                                                //reset change counter to zero for next time
        changeValue = false;                                              //termiate edit mode
     }
 
-    else if (counter == 3 && changeValue == false){          //put controller in mode to edi value
+    else if (counter == 5 && changeValue == false){          //put controller in mode to edi value
       changeValue = true;
       changeCounter = timeControl_hours;                     //the change counter is now set to the value and is incremented by encoder()
     }
-    else if (counter == 3 && changeValue == true){                     //exit edit s mode
+    else if (counter == 5 && changeValue == true){                     //exit edit s mode
        timeControl_hours = changeCounter;                              //update the value
        EEPROM.put(timeControl_hours_eeAddress, timeControl_hours);     //send value to eeprom
        changeCounter = 0;                                              //reset change counter to zero for next time
        changeValue = false;                                            //termiate edit mode
     }
 
-    else if (counter == 4 && changeValue == false){           //put controller in mode to edit speed value
+    else if (counter == 6 && changeValue == false){           //put controller in mode to edit speed value
       changeValue = true;
       negative = true;
       changeCounter = timeControl_rDistance;                  //speed is now loaded speed plus the counted encoder ticks
     }
-    else if (counter == 4 && changeValue == true){                         //exit edit mode
+    else if (counter == 6 && changeValue == true){                         //exit edit mode
       negative = false;
        timeControl_rDistance = changeCounter;                              //update the value
        EEPROM.put(timeControl_rDistance_eeAddress, timeControl_rDistance); //send value to eeprom
        changeCounter = 0;                                                  //reset change counter to zero for next time
        changeValue = false;                                                //termiate edit mode
     }
-    
-    else if (counter == 5){                      //if clicked on direction -> FLIP
-      moveLeft = !moveLeft;  
-    }
-
-    else if (counter == 6){                     //if clicked on Run then run the configured operation
-        menu = menuTuneID + menu;
-        counter = 0;
-      }
     
     else if (counter == 7){                     //if clicked on Run then run the configured operation
       timeControl();                            //run the operation

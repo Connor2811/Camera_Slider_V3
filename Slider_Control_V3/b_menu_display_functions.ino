@@ -182,8 +182,33 @@ void  menuTimeControl() {
     display.println("Return");
   }
 
-  //Camera time delay Logic
+    //go to tune Menu
   if(counter == 1){
+    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
+    }
+  else{
+    display.setTextColor(SSD1306_WHITE);        // Draw white text
+    }
+  display.println("TUNE");
+
+  //Camera Direction Logic
+  if(counter == 2){
+    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
+    }
+  else{
+    display.setTextColor(SSD1306_WHITE);        // Draw white text
+    }
+  display.print("Direction:");
+  display.setTextColor(SSD1306_WHITE);
+  if (moveLeft == true){
+    display.println(" Left");
+  }
+  else{
+    display.println(" Right");
+  }  
+
+  //Camera time delay Logic
+  if(counter == 3){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -200,7 +225,7 @@ void  menuTimeControl() {
   }
 
 
-  if(counter == 2){
+  if(counter == 4){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -217,7 +242,7 @@ void  menuTimeControl() {
   }  
 
 
-  if(counter == 3){
+  if(counter == 5){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -234,7 +259,7 @@ void  menuTimeControl() {
   }
 
   //Camera Angle Display Logic
-  if(counter == 4){
+  if(counter == 6){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -251,34 +276,6 @@ void  menuTimeControl() {
   }
   display.println((char)223);
   
-
-  //Camera Direction Logic
-  if(counter == 5){
-    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
-    }
-  else{
-    display.setTextColor(SSD1306_WHITE);        // Draw white text
-    }
-  display.print("Direction:");
-  display.setTextColor(SSD1306_WHITE);
-  if (moveLeft == true){
-    display.println(" Left");
-  }
-  else{
-    display.println(" Right");
-  }
-
-
-  //go to tune Menu
-  if(counter == 6){
-    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
-    }
-  else{
-    display.setTextColor(SSD1306_WHITE);        // Draw white text
-    }
-  display.println("TUNE");
-  
-
 
   //Start Shot Logic
   if(counter == menuOptionCount){
