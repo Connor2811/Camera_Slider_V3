@@ -131,8 +131,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
   #define timeControlID 1        
   #define speedControlID 2
   #define motionControlID 3
-  #define loopControlID 4
-  #define globalValuesID 5
+  #define globalValuesID 4
   #define menuTuneID 100
   int menuOptionCount;           //number of options availible on a given menu
   
@@ -197,21 +196,6 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 
   unsigned int motionControl_hours = 0;       //speed of the horizontal slider while in speedControl Mode
   #define motionControl_hours_eeAddress 56    //Location of information in eeprom
-
- 
-  //loopControl EEPROM
-  float loopControl_speed = 0 ;                //speed of the horizontal slider while in speedControl Mode in inches per minute
-  #define loopControl_speed_eeAddress 68        //Location of information in eeprom
-
-  unsigned int loopControl_counter = 0;        //speed of the horizontal slider while in speedControl Mode in inches per minute
-  #define loopControl_counter_eeAddress 73     //Location of information in eeprom
-  
-  unsigned int loopControl_rDistance = 0;      //amount in degrees to rotate camera over one slide operation in speed control mode
-  #define loopControl_rDistance_eeAddress 76    //Location of information in eeprom
-
-
-  //CalculatorEEPROM
-
 
   
 // Stored Values
@@ -289,9 +273,6 @@ void loop() {
   }
   if (menu == motionControlID){
     menuMotionControl();
-  }
-  if (menu == loopControlID){
-    menuLoopControl();
   }
   if (menu == globalValuesID){
     menuGlobalValues();

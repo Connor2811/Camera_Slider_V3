@@ -84,20 +84,8 @@ void motionControl(){
   finishOp();
 }
 
-//OPERATION LOGIC FOR LOOP CONTROLL
 void loopControl(){
   
-  angle = (loopControl_rDistance * 35.5552); //calculate angle from user configured values to 360degree scale
-  pause =(((((length_Inches/loopControl_speed)*60)) * 1000000L) )/LENGTH;
-  runningPath = true;
-  while(runningPath == true){
-    determineDirection();
-    runStandardOp();
-    moveLeft = !moveLeft;
-    EEPROM.put(moveLeft_eeAddress, moveLeft);
-    delay(50000);
-  }
-  finishOp();
 }
 
 
@@ -105,7 +93,6 @@ void runReset(){
   runningPath = true;                       //tell they system we are running an operation
   digitalWrite(disablePin, LOW);            //enable stepper drivers
   stepperEnabled = true;
-  EEPROM.get(moveLeft_eeAddress, moveLeft);
   
   if (moveLeft == true){ //check desired camera direction and flip the horizontal and rotation direction if needed
     digitalWrite(horizontalDirPin, HIGH);  //moveright
@@ -144,7 +131,7 @@ void enableSteppers(){
 
 void returnToStart(){
     //reverse movement and reset to original location
-  EEPROM.get(moveLeft_eeAddress, moveLeft);
+
   moveLeft = !moveLeft;
   determineDirection();  
   moveLeft = !moveLeft;
@@ -189,9 +176,7 @@ void runStandardOp(){
   }
 }
 
-
 void determineDirection(){
-    EEPROM.get(moveLeft_eeAddress, moveLeft);
     if (moveLeft == true){
       digitalWrite(horizontalDirPin, LOW);
       digitalWrite(rotationlDirPin, HIGH);
