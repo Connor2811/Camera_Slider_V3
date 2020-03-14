@@ -142,6 +142,7 @@ void clicked() {                        //if the button on the encoder was click
       }
 
     else if (counter == 2){                      //if clicked on direction -> FLIP
+      EEPROM.get(moveLeft_eeAddress, moveLeft);
       moveLeft = !moveLeft;  
       EEPROM.put(moveLeft_eeAddress, moveLeft);   //send value to eeprom
     }
@@ -212,6 +213,7 @@ void clicked() {                        //if the button on the encoder was click
       } 
 
     else if (counter == 2){                      //if clicked on direction -> FLIP
+      EEPROM.get(moveLeft_eeAddress, moveLeft);
       moveLeft = !moveLeft;
       EEPROM.put(moveLeft_eeAddress, moveLeft);   //send value to eeprom   
     }   
@@ -230,8 +232,8 @@ void clicked() {                        //if the button on the encoder was click
     }
 
     else if (counter == 4 && changeValue == false){                    //put controller in edit mode
-      negative = true;
       changeValue = true;                                              
+      negative = true;
       changeCounter = speedControl_rDistance;          //angle is now loaded angle plus the counted encoder ticks
     }    
     else if (counter == 4 && changeValue == true){                          //exit edit angle mode
@@ -260,6 +262,7 @@ void clicked() {                        //if the button on the encoder was click
       } 
 
     else if (counter == 2){                      //if clicked on direction -> FLIP
+      EEPROM.get(moveLeft_eeAddress, moveLeft);
       moveLeft = !moveLeft;
       EEPROM.put(moveLeft_eeAddress, moveLeft);   //send value to eeprom    
     }  
@@ -340,6 +343,7 @@ void clicked() {                        //if the button on the encoder was click
       } 
 
     else if (counter == 2){                      //if clicked on direction -> FLIP
+      EEPROM.get(moveLeft_eeAddress, moveLeft);
       moveLeft = !moveLeft;
       EEPROM.put(moveLeft_eeAddress, moveLeft);   //send value to eeprom   
     }   

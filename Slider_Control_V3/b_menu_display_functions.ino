@@ -469,6 +469,8 @@ void menuLoopControl() {
   display.println(F("Loop Control"));
   display.setTextSize(1.75);
 
+  commonMenus();
+
   //Camera Speed Logic
   if(counter == 3){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
@@ -537,7 +539,7 @@ void commonMenus(){
   }
 
     //go to tune Menu
-  if (counter <7){
+  if (counter <8){
     if(counter == 1){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
@@ -555,6 +557,7 @@ void commonMenus(){
   }
   display.print("Direction:");
   display.setTextColor(SSD1306_WHITE);
+  EEPROM.get(moveLeft_eeAddress, moveLeft);
   if (moveLeft == true){
     display.println(" Left");
   }

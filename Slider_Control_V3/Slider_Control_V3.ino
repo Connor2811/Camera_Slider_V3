@@ -161,7 +161,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
   unsigned int speedControl_counter = 0;        //speed of the horizontal slider while in speedControl Mode in inches per minute
   #define speedControl_counter_eeAddress 48     //Location of information in eeprom
   
-  unsigned int speedControl_rDistance = 0;      //amount in degrees to rotate camera over one slide operation in speed control mode
+  long speedControl_rDistance = 0;      //amount in degrees to rotate camera over one slide operation in speed control mode
   #define speedControl_rDistance_eeAddress 8    //Location of information in eeprom
 
 

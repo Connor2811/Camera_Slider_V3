@@ -31,12 +31,12 @@ void motionControl(){
   runningPath = true;                       //tell they system we are running an operation
   digitalWrite(disablePin, LOW);            //enable stepper drivers
   stepperEnabled = true;
-  angle = 1; 
+  angle = (atan(motionControl_dAway/motionControl_dDown)*(180/ M_PI))* 35.5552; 
   determineDirection();
 
   float startAngle = atan(motionControl_dAway/motionControl_dDown)*(180/ M_PI);
   float calculatedAngle;
-  float currentAngle = startAngle;
+  float currentAngle = 1;
   float angleStepsTaken = 0;
   bool flip = true;
   float dTravled = 0;
@@ -146,8 +146,10 @@ void returnToStart(){
     //reverse movement and reset to original location
   EEPROM.get(moveLeft_eeAddress, moveLeft);
   moveLeft = !moveLeft;
+  EEPROM.put(moveLeft_eeAddress, moveLeft);
   determineDirection();  
   moveLeft = !moveLeft;
+  EEPROM.put(moveLeft_eeAddress, moveLeft);
   pause = 64;              //delay time of return speed (divide by 8 to get delay in microseconds)
   runStandardOp();
 }
@@ -159,7 +161,7 @@ void runStandardOp(){
     cancel = counter;                            //set cancel equal to the current counter value
     delay (1000);                                //wait a sec to debounce
     angleTracking = 1;
-    float myAngle = LENGTH/angle;
+    float myAngle = LENGTH/abs(angle);
     float myPause = pause/14;
     
     for (long i = 0; i < LENGTH; i++){           //this for loop controls all the actual motor controll
@@ -196,7 +198,6 @@ void determineDirection(){
       digitalWrite(horizontalDirPin, LOW);
       digitalWrite(rotationlDirPin, HIGH);
       if (angle < 0){
-        angle = abs(angle);
         digitalWrite(rotationlDirPin, LOW);
       }
     } 
@@ -205,7 +206,7 @@ void determineDirection(){
       digitalWrite(rotationlDirPin, LOW);   //move anticlockwise
       if (angle < 0){       //rotate camera opposite direction if degree value is negative
         digitalWrite(rotationlDirPin, HIGH);
-        angle = abs(angle);
+        
       }
     }    
 }
