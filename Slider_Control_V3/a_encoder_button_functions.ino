@@ -9,7 +9,13 @@ void encoder(){
    if (aState != aLastState){              // If the outputB state is different to the outputA state, that means the encoder is rotating clockwise                           
      if (digitalRead(outputB) != aState) { //check to see if its spinning clockwise 
        if (changeValue == false){          //if we are not trying to change a value increase "counter"
-        counter ++;                   
+        if (twoTick >= 1){
+          counter ++;
+          twoTick = 0;       
+        }
+        else{
+          twoTick ++;            
+        }
        }
        else if (changeValue == true){ //if we are tyring to change a value increase "ChangeCounter" instead
         changeCounter ++;
@@ -17,7 +23,13 @@ void encoder(){
      } 
      else{                             //if we are spinning anticlockwise run this
       if (changeValue == false){       //if we not are trying to change a value decrease "counter" 
-       counter --;
+        if (twoTick <= -1){
+          counter --;
+          twoTick = 0;       
+        }
+        else{
+          twoTick --;            
+        }
       }
       else if (changeValue == true && changeCounter > 0 && negative == false){   //if we are trying to change a value decrease "ChangeCounter" instead
         changeCounter --;
@@ -93,13 +105,7 @@ void clicked() {                        //if the button on the encoder was click
         menu = menu - menuTuneID;
       }
       else if (counter == 1){         //put controller in mode to edit speed value
-        if (stepperState == " disabled"){
-          stepperState = " enabled ";
-        }
-  
-        else if (stepperState == " enabled "){
-          stepperState = " disabled";
-        }
+        stepperEnabled = !stepperEnabled;
         enableSteppers();               
       }
   
@@ -167,12 +173,7 @@ void clicked() {                        //if the button on the encoder was click
     }
     
     else if (counter == 5){                      //if clicked on direction -> FLIP
-      if (movementDirection == "  right"){
-        movementDirection = "  left ";
-      }
-      else{
-        movementDirection = "  right";
-      }    
+      moveLeft = !moveLeft;  
     }
 
     else if (counter == 6){                     //if clicked on Run then run the configured operation
@@ -223,12 +224,7 @@ void clicked() {                        //if the button on the encoder was click
 
     
     else if (counter == 3){                      //if clicked on direction -> FLIP
-      if (movementDirection == "  right"){
-        movementDirection = "  left ";
-      }
-      else{
-        movementDirection = "  right";
-      }    
+      moveLeft = !moveLeft;   
     }
 
     else if (counter == 4){                     //if clicked on Run then run the configured operation
@@ -283,24 +279,14 @@ void clicked() {                        //if the button on the encoder was click
     }
     
     else if (counter == 4){                      //if clicked on direction -> FLIP
-      if (movementDirection == "  right"){
-        movementDirection = "  left ";
-      }
-      else{
-        movementDirection = "  right";
-      }    
+      moveLeft = !moveLeft;    
     }
 
     
     else if (counter == 5){                     //if clicked on Run then run the configured operation
       delay (10000);                            //give it a second to debounce the button
       motionControl();                          //run the operation
-      if (movementDirection == "  right"){       //flip the desired direction after operation
-        movementDirection = "  left ";
-      }
-      else{
-        movementDirection = "  right";
-      } 
+      moveLeft = !moveLeft; 
     }
   }
 

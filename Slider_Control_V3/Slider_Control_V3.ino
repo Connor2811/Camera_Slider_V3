@@ -133,22 +133,6 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
   #define globalValuesID 4
   #define menuTuneID 100
   int menuOptionCount;           //number of options availible on a given menu
-
-//SUBMENU LOGIC  
-  int subMenu;
-  #define tuneSubMenuID 0
-  #define speedSubMenuID 1
-  #define angleSubMenuID 2
-  #define secondsSubMenuID 3
-  #define minutesSubMenuID 4
-  #define hoursSubMenuID 5
-  #define directionSubMenuID 6
-  #define runSubMenuID 7
-  #define returnSubMenuID 8
-  #define mainSubMenuID 9
-  #define steppersSubMenuID 10
-  #define jogSubMenuID 11
-  #define lengthSubMenuID 12
   
   
   
@@ -206,16 +190,18 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
   
 // Stored Values
   float LENGTH = length_Inches * Steps_Per_inch;  //converts length into steps
-  String movementDirection = "  left ";            //sets direction of travel, this is flopped after each operation
+  bool moveLeft = true;
   bool changeValue = false;                       //determines whether to configure the operation values or scroll down a menu, this is flipped by clicking encoder while over value
   int changeCounter = 0;                         // if change value is true "changeCounter" will be changed instead of the normal "counter" value
   bool runningPath = false;                       //tracks wether or not an operation is curretly running
   unsigned long currentMicros;
   bool negative = false;
-  String stepperState = " disabled";
   float angleTracking;
   unsigned int cancel;
   float angle;
+  float pause;
+  bool stepperEnabled = false;
+  int twoTick = 0;
 
   
 

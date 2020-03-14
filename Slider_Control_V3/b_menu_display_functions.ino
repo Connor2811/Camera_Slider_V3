@@ -4,8 +4,7 @@
 
 
 //MAINMENU DISPLAY
-void  mainMenu() { 
-  //subMenu = mainSubMenuID;               
+void  mainMenu() {               
   menuOptionCount = 3;                        //CHANGE ME: when more options are added
   display.clearDisplay();
   display.setTextColor(SSD1306_WHITE);        // Draw white text
@@ -71,7 +70,6 @@ void menuGlobalValues(){
 
 
   if(counter == 0){
-    //subMenu = returnSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -81,7 +79,6 @@ void menuGlobalValues(){
 
   
 if(counter == 1){
-    //subMenu = secondsSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -126,7 +123,6 @@ void menuTune(){
 
 
   if(counter == 0){
-    subMenu = returnSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -136,18 +132,21 @@ void menuTune(){
 
   
   if(counter == 1){
-    subMenu = steppersSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
     display.setTextColor(SSD1306_WHITE);                // Draw white text
     } 
   display.print("Steppers:"); 
-  display.println(stepperState);    
+  if (stepperEnabled == true){
+    display.println(" Enabled");
+  }
+  else{
+    display.println(" Disabled");    
+  }
 
 
   if(counter == 2){
-    subMenu = jogSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -162,9 +161,7 @@ void menuTune(){
 
 //TIMECONTROLL MENU
 void  menuTimeControl() {
-  if(subMenu = tuneSubMenuID){
-    counter = 6;
-  }
+
   menuOptionCount = 7;                   //number of options on the menu
   int16_t i = 9;
   display.clearDisplay();                //clear displau
@@ -177,7 +174,6 @@ void  menuTimeControl() {
   //display all of the options and highlight if they are selected
   if (counter <7){
     if(counter == 0){
-      //subMenu = returnSubMenuID;
       display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
       }
     else{
@@ -188,7 +184,6 @@ void  menuTimeControl() {
 
   //Camera time delay Logic
   if(counter == 1){
-    //subMenu = secondsSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -206,7 +201,6 @@ void  menuTimeControl() {
 
 
   if(counter == 2){
-    //subMenu = minutesSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -224,7 +218,6 @@ void  menuTimeControl() {
 
 
   if(counter == 3){
-    //subMenu = hoursSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -242,7 +235,6 @@ void  menuTimeControl() {
 
   //Camera Angle Display Logic
   if(counter == 4){
-    //subMenu = angleSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -262,7 +254,6 @@ void  menuTimeControl() {
 
   //Camera Direction Logic
   if(counter == 5){
-    //subMenu = directionSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -270,12 +261,16 @@ void  menuTimeControl() {
     }
   display.print("Direction:");
   display.setTextColor(SSD1306_WHITE);
-  display.println(movementDirection);
+  if (moveLeft == true){
+    display.println(" Left");
+  }
+  else{
+    display.println(" Right");
+  }
 
 
   //go to tune Menu
   if(counter == 6){
-    //subMenu = tuneSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -287,7 +282,6 @@ void  menuTimeControl() {
 
   //Start Shot Logic
   if(counter == menuOptionCount){
-    //subMenu = runSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -311,9 +305,6 @@ void  menuTimeControl() {
 
 //SPEEDCONTROLL MENU DISPLAY
 void  menuSpeedControl() {
-    if(subMenu = tuneSubMenuID){
-    counter = 4;
-  }
   menuOptionCount = 5;                   //number of options on the menu
   int16_t i = 9;
   display.clearDisplay();                //clear displau
@@ -325,7 +316,6 @@ void  menuSpeedControl() {
 
   //display all of the options and highlight if they are selected
   if(counter == 0){
-    //subMenu = returnSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -335,7 +325,6 @@ void  menuSpeedControl() {
 
   //Camera Speed Logic
   if(counter == 1){
-    //subMenu = speedSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -354,7 +343,6 @@ void  menuSpeedControl() {
  
   //Camera Angle Display Logic
   if(counter == 2){
-    //subMenu = angleSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -374,7 +362,6 @@ void  menuSpeedControl() {
 
   //Camera Direction Logic
   if(counter == 3){
-    //subMenu = directionSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -382,11 +369,15 @@ void  menuSpeedControl() {
     }
   display.print("direction:");
   display.setTextColor(SSD1306_WHITE);
-  display.println(movementDirection);
+  if (moveLeft == true){
+    display.println(" Left");
+  }
+  else{
+    display.println(" Right");
+  }
 
   //go to tune Menu
   if(counter == 4){
-    //subMenu = tuneSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -396,7 +387,6 @@ void  menuSpeedControl() {
 
   //Start Shot Logic
   if(counter == menuOptionCount){
-    //subMenu = runSubMenuID;
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -486,7 +476,7 @@ void menuMotionControl() {
 
   //Camera Direction Logic
   if(counter == 4){
-    subMenu = directionSubMenuID;
+
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -494,7 +484,12 @@ void menuMotionControl() {
     }
   display.print("direction:");
   display.setTextColor(SSD1306_WHITE);
-  display.println(movementDirection);
+  if (moveLeft == true){
+    display.println(" Left");
+  }
+  else{
+    display.println(" Right");
+  }
 
   if(counter == menuOptionCount){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
@@ -513,4 +508,16 @@ void menuMotionControl() {
   if (counter < 0){
     counter = 0;
   }
+}
+
+void runScreen(){
+   menuOptionCount = 5;
+  display.clearDisplay();
+  display.setTextColor(SSD1306_WHITE);        // Draw white text
+  display.setTextSize(1.5);             // Normal 1:1 pixel scale   
+  display.setCursor(0,0);             // Start at top-left corner
+  display.println(F("!Shot In Progress!"));
+  display.setTextSize(1.75);
+  display.println("Scroll to Exit");
+  display.display();
 }
