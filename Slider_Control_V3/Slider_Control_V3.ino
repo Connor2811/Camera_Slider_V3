@@ -11,7 +11,7 @@
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
-//char for logo display
+//char for logo displayed on startup
 static const unsigned char PROGMEM image_data_logo[] = {
     0x00, 0x07, 0x80, 0x00, 0x00, 
     0x00, 0x07, 0xb0, 0x00, 0x00, 
@@ -62,6 +62,7 @@ static const unsigned char PROGMEM image_data_logo[] = {
     0x0f, 0x1c, 0xc8, 0xe4, 0x60
 };
 
+//char for logo displayed on menu screen
 static const unsigned char PROGMEM image_data_Logosmall[] = {
     0x00, 0x1c, 0x00, 0x00, 0x00, 
     0x00, 0x1d, 0x80, 0x00, 0x00, 
@@ -109,11 +110,11 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
   
 
 //ENCODER
- #define outputA 3   //first data input pin for the encoder
- #define outputB 4   //second data input pin for the encoder
+ #define outputA 3      //first data input pin for the encoder
+ #define outputB 4      //second data input pin for the encoder
  double counter = 0;    //tracks how many clicks the encoder has had
- int aState;         //Value to store the current state of the Encoder
- int aLastState;     //Value to store the last state of the Encoder
+ int aState;            //Value to store the current state of the Encoder
+ int aLastState;        //Value to store the last state of the Encoder
  const byte encoderButtonInterruptPin = 2;        //inerupt pin attached to the encoders button  
  const byte encodeRotationrInterruptPin = 3;      //interupt pin attached to the encoders rotation
 
@@ -127,7 +128,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 //MENU LOGIC
   int menu = 0;                  //menus are stored as numbers
   #define homeMenuID 0           //numerical ID for all menu options
-  #define timeControlID 1
+  #define timeControlID 1        
   #define speedControlID 2
   #define motionControlID 3
   #define globalValuesID 4
@@ -142,63 +143,65 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 
 
   //Global EEPROM
-  unsigned int length_Inches = 30;                  //length of the slider rail in inches
-  #define length_Inches_eeAddress 0          //Location of information in eeprom
+  unsigned int length_Inches = 30;                //length of the slider rail in inches
+  #define length_Inches_eeAddress 0               //Location of information in eeprom
 
-  unsigned int Steps_Per_inch = 2032;
-  #define Steps_Per_inch_eeAddress 44
+  unsigned int Steps_Per_inch = 2032;             //save value to configure steps per in on the fly
+  #define Steps_Per_inch_eeAddress 44             //Location of information in eeprom
+
+  bool moveLeft = true;                           //stores the preferred direction of travel
+  #define moveLeft_eeAddress 60                   //Location of information in eeprom
 
   
   //speedControl EEPROM
-  float speedControl_speed = 50.00;             //speed of the horizontal slider while in speedControl Mode in inches per minute
-  #define speedControl_speed_eeAddress 4    //Location of information in eeprom
+  float speedControl_speed = 0 ;                //speed of the horizontal slider while in speedControl Mode in inches per minute
+  #define speedControl_speed_eeAddress 4        //Location of information in eeprom
 
-  unsigned int speedControl_counter = 10;             //speed of the horizontal slider while in speedControl Mode in inches per minute
+  unsigned int speedControl_counter = 0;        //speed of the horizontal slider while in speedControl Mode in inches per minute
   #define speedControl_counter_eeAddress 48     //Location of information in eeprom
   
-  unsigned int speedControl_rDistance = 0;          //amount in degrees to rotate camera over one slide operation in speed control mode
-  #define speedControl_rDistance_eeAddress 8 //Location of information in eeprom
+  unsigned int speedControl_rDistance = 0;      //amount in degrees to rotate camera over one slide operation in speed control mode
+  #define speedControl_rDistance_eeAddress 8    //Location of information in eeprom
 
 
   //timeControl EEPROM 
-  unsigned int timeControl_seconds = 30;           //speed of the horizontal slider while in speedControl Mode
-  #define timeControl_seconds_eeAddress 28  //Location of information in eeprom
+  unsigned int timeControl_seconds = 0;        //speed of the horizontal slider while in speedControl Mode
+  #define timeControl_seconds_eeAddress 28     //Location of information in eeprom
 
-  unsigned int timeControl_minutes = 0;            //speed of the horizontal slider while in speedControl Mode
-  #define timeControl_minutes_eeAddress 32  //Location of information in eeprom
+  unsigned int timeControl_minutes = 0;       //speed of the horizontal slider while in speedControl Mode
+  #define timeControl_minutes_eeAddress 32    //Location of information in eeprom
 
-  unsigned int timeControl_hours = 0;              //speed of the horizontal slider while in speedControl Mode
-  #define timeControl_hours_eeAddress 36    //Location of information in eeprom
+  unsigned int timeControl_hours = 0;        //speed of the horizontal slider while in speedControl Mode
+  #define timeControl_hours_eeAddress 36     //Location of information in eeprom
   
-  long timeControl_rDistance = 0;          //amount in degrees to rotate camera over one slide operation in speed control mode
-  #define timeControl_rDistance_eeAddress 40//Location of information in eeprom
+  long timeControl_rDistance = 0;            //amount in degrees to rotate camera over one slide operation in speed control mode
+  #define timeControl_rDistance_eeAddress 40 //Location of information in eeprom
 
 
   //motionControl EEPROM
-  double motionControl_dAway = 4.;          //Distance of object to be tracked tangent to the rail
-  #define  motionControl_dAway_eeAddress 12 //Location of information in eeprom
+  double motionControl_dAway = 0;            //Distance of object to be tracked tangent to the rail
+  #define  motionControl_dAway_eeAddress 12  //Location of information in eeprom
 
-  double motionControl_dDown= 4.;           //distance of the tracked object from theright side and parallel to the rail
-  #define  motionControl_dDown_eeAddress 16 //Location of information in eeprom
+  double motionControl_dDown= 0;             //distance of the tracked object from theright side and parallel to the rail
+  #define  motionControl_dDown_eeAddress 16  //Location of information in eeprom
 
-  unsigned int motionControl_speed= 50;            //speed of the shot
-  #define  motionControl_speed_eeAddress 20 //Location of information in eeprom
+  unsigned int motionControl_speed= 50;      //speed of the shot
+  #define  motionControl_speed_eeAddress 20  //Location of information in eeprom
 
-  unsigned int motionControl_seconds = 30;           //speed of the horizontal slider while in speedControl Mode
+  unsigned int motionControl_seconds = 30;    //speed of the horizontal slider while in speedControl Mode
   #define motionControl_seconds_eeAddress 24  //Location of information in eeprom
 
-  unsigned int motionControl_minutes = 0;            //speed of the horizontal slider while in speedControl Mode
+  unsigned int motionControl_minutes = 0;     //speed of the horizontal slider while in speedControl Mode
   #define motionControl_minutes_eeAddress 52  //Location of information in eeprom
 
-  unsigned int motionControl_hours = 0;              //speed of the horizontal slider while in speedControl Mode
+  unsigned int motionControl_hours = 0;       //speed of the horizontal slider while in speedControl Mode
   #define motionControl_hours_eeAddress 56    //Location of information in eeprom
 
   
 // Stored Values
-  float LENGTH = length_Inches * Steps_Per_inch;  //converts length into steps
-  bool moveLeft = true;
+  float LENGTH = length_Inches * Steps_Per_inch;  //converts the user set length into usable steps
   bool changeValue = false;                       //determines whether to configure the operation values or scroll down a menu, this is flipped by clicking encoder while over value
-  int changeCounter = 0;                         // if change value is true "changeCounter" will be changed instead of the normal "counter" value
+  int changeCounter = 0;                          // if change value is true "changeCounter" will be changed instead of the normal "counter" value
   bool runningPath = false;                       //tracks wether or not an operation is curretly running
   unsigned long currentMicros;
   bool negative = false;

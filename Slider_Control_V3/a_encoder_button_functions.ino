@@ -49,6 +49,7 @@ void clicked() {                        //if the button on the encoder was click
   if (menu == homeMenuID){              //if we detected a click while on homemenu go to selected menu
     if (counter == 0){
       menu = timeControlID;
+      EEPROM.get(moveLeft_eeAddress, moveLeft);                              //load in EEPROM value for this modes settings
       EEPROM.get(timeControl_seconds_eeAddress, timeControl_seconds);        //load in EEPROM value for this modes settings
       EEPROM.get(timeControl_minutes_eeAddress, timeControl_minutes);        //load in EEPROM value for this modes settings
       EEPROM.get(timeControl_hours_eeAddress, timeControl_hours);            //load in EEPROM value for this modes settings
@@ -56,18 +57,20 @@ void clicked() {                        //if the button on the encoder was click
     }
     else if (counter == 1){
        menu = speedControlID;
+       EEPROM.get(moveLeft_eeAddress, moveLeft); 
        EEPROM.get(speedControl_speed_eeAddress, speedControl_speed);           //load in EEPROM value for this modes settings
        EEPROM.get(speedControl_rDistance_eeAddress, speedControl_rDistance);   //load in EEPROM value for this modes settings
        EEPROM.get(speedControl_counter_eeAddress, speedControl_counter);       //load in EEPROM value for this modes settings
     }
     else if (counter == 2){
        menu = motionControlID;
-        EEPROM.get(motionControl_dAway_eeAddress, motionControl_dAway);           //load in EEPROM value for this modes settings
-        EEPROM.get(motionControl_dDown_eeAddress, motionControl_dDown);           //load in EEPROM value for this modes settings
-        EEPROM.get(motionControl_seconds_eeAddress, motionControl_seconds);           //load in EEPROM value for this modes settings
-        EEPROM.get(motionControl_minutes_eeAddress, motionControl_minutes);           //load in EEPROM value for this modes settings
-        EEPROM.get(motionControl_hours_eeAddress, motionControl_hours);           //load in EEPROM value for this modes settings
-        
+       EEPROM.get(moveLeft_eeAddress, moveLeft); 
+       EEPROM.get(motionControl_dAway_eeAddress, motionControl_dAway);           //load in EEPROM value for this modes settings
+       EEPROM.get(motionControl_dDown_eeAddress, motionControl_dDown);           //load in EEPROM value for this modes settings
+       EEPROM.get(motionControl_seconds_eeAddress, motionControl_seconds);           //load in EEPROM value for this modes settings
+       EEPROM.get(motionControl_minutes_eeAddress, motionControl_minutes);           //load in EEPROM value for this modes settings
+       EEPROM.get(motionControl_hours_eeAddress, motionControl_hours);           //load in EEPROM value for this modes settings
+          
     }
     else if (counter == 3){
        menu = globalValuesID;
@@ -134,6 +137,7 @@ void clicked() {                        //if the button on the encoder was click
 
     else if (counter == 2){                      //if clicked on direction -> FLIP
       moveLeft = !moveLeft;  
+      EEPROM.put(moveLeft_eeAddress, moveLeft);   //send value to eeprom
     }
     
     else if (counter == 3 && changeValue == false){         //put controller in mode to edit seconds value
@@ -202,7 +206,8 @@ void clicked() {                        //if the button on the encoder was click
       } 
 
     else if (counter == 2){                      //if clicked on direction -> FLIP
-      moveLeft = !moveLeft;   
+      moveLeft = !moveLeft;
+      EEPROM.put(moveLeft_eeAddress, moveLeft);   //send value to eeprom   
     }   
       
     else if (counter == 3 && changeValue == false){         //put controller in edit mode
@@ -249,7 +254,8 @@ void clicked() {                        //if the button on the encoder was click
       } 
 
     else if (counter == 2){                      //if clicked on direction -> FLIP
-      moveLeft = !moveLeft;    
+      moveLeft = !moveLeft;
+      EEPROM.put(moveLeft_eeAddress, moveLeft);   //send value to eeprom    
     }  
 
     else if (counter == 3 && changeValue == false){         //put controller in mode to edit value
