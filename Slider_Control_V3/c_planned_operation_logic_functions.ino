@@ -225,6 +225,7 @@ void determineDirection(){
       digitalWrite(horizontalDirPin, LOW);
       digitalWrite(rotationlDirPin, HIGH);
       if (angle < 0){
+        angle = abs(angle);
         digitalWrite(rotationlDirPin, LOW);
       }
     } 
@@ -233,6 +234,7 @@ void determineDirection(){
       digitalWrite(rotationlDirPin, LOW);   //move anticlockwise
       if (angle < 0){       //rotate camera opposite direction if degree value is negative
         digitalWrite(rotationlDirPin, HIGH);
+        angle = abs(angle);
       }
     }    
 }

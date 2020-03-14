@@ -65,7 +65,6 @@ void clicked() {                        //if the button on the encoder was click
         EEPROM.get(motionControl_dAway_eeAddress, motionControl_dAway);           //load in EEPROM value for this modes settings
         EEPROM.get(motionControl_dDown_eeAddress, motionControl_dDown);           //load in EEPROM value for this modes settings
         EEPROM.get(motionControl_speed_eeAddress, motionControl_speed);           //load in EEPROM value for this modes settings
-        EEPROM.get(motionControl_time_eeAddress, motionControl_time);             //load in EEPROM value for this modes settings
     }
     else if (counter == 3){
        menu = globalValuesID;
