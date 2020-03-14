@@ -66,8 +66,8 @@ void clicked() {                        //if the button on the encoder was click
        EEPROM.get(moveLeft_eeAddress, moveLeft); 
        EEPROM.get(motionControl_dAway_eeAddress, motionControl_dAway);           //load in EEPROM value for this modes settings
        EEPROM.get(motionControl_dDown_eeAddress, motionControl_dDown);           //load in EEPROM value for this modes settings
-       EEPROM.get(motionControl_seconds_eeAddress, motionControl_seconds);           //load in EEPROM value for this modes settings
-       EEPROM.get(motionControl_minutes_eeAddress, motionControl_minutes);           //load in EEPROM value for this modes settings
+       EEPROM.get(motionControl_seconds_eeAddress, motionControl_seconds);       //load in EEPROM value for this modes settings
+       EEPROM.get(motionControl_minutes_eeAddress, motionControl_minutes);       //load in EEPROM value for this modes settings
        EEPROM.get(motionControl_hours_eeAddress, motionControl_hours);           //load in EEPROM value for this modes settings
           
     }

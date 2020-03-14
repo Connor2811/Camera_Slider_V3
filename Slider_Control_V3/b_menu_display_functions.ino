@@ -355,7 +355,7 @@ void  menuSpeedControl() {
   display.print("speed:");      
   display.setTextColor(SSD1306_WHITE); 
   display.print(" ");
-  if (changeValue == true && counter == 1){    //if we are activley changing the value display change counter instead of the saved value
+  if (changeValue == true && counter == 3){    //if we are activley changing the value display change counter instead of the saved value
     display.print( pow(changeCounter,3) * .0006);
   } 
   else{

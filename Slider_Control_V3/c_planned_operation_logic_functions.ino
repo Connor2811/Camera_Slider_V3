@@ -84,6 +84,10 @@ void motionControl(){
   finishOp();
 }
 
+void loopControl(){
+  
+}
+
 
 void runReset(){
   runningPath = true;                       //tell they system we are running an operation
