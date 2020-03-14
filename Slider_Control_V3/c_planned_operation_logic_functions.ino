@@ -26,9 +26,6 @@ void speedControl(){
     finishOp();
 }
 
-
-
-
 //OPERATION LOGIC FOR MOTION CONTROLL
 void motionControl(){
   runningPath = true;                       //tell they system we are running an operation

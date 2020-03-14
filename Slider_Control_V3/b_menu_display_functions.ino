@@ -217,7 +217,7 @@ void  menuTimeControl() {
   display.print("Seconds:");      
   display.setTextColor(SSD1306_WHITE); 
   display.print(" ");
-  if (changeValue == true && counter == 1){    //if we are activley changing the value display change counter instead of the saved value
+  if (changeValue == true && counter == 3){    //if we are activley changing the value display change counter instead of the saved value
     display.println(changeCounter);
   } 
   else{
@@ -234,7 +234,7 @@ void  menuTimeControl() {
   display.print("Minutes:");      
   display.setTextColor(SSD1306_WHITE); 
   display.print(" ");
-  if (changeValue == true && counter == 2){    //if we are activley changing the value display change counter instead of the saved value
+  if (changeValue == true && counter == 4){    //if we are activley changing the value display change counter instead of the saved value
     display.println(changeCounter);
   } 
   else{
@@ -251,7 +251,7 @@ void  menuTimeControl() {
   display.print("Hours:");      
   display.setTextColor(SSD1306_WHITE); 
   display.print(" ");
-  if (changeValue == true && counter == 3){    //if we are activley changing the value display change counter instead of the saved value
+  if (changeValue == true && counter == 5){    //if we are activley changing the value display change counter instead of the saved value
     display.println(changeCounter);
   } 
   else{
@@ -268,7 +268,7 @@ void  menuTimeControl() {
   display.print("Camera Angle:");
   display.setTextColor(SSD1306_WHITE); 
   display.print(" ");
-  if (changeValue == true && counter == 4){     //if we are activily changing the angle display change counter
+  if (changeValue == true && counter == 6){     //if we are activily changing the angle display change counter
     display.print(changeCounter);
   } 
   else{
@@ -320,8 +320,33 @@ void  menuSpeedControl() {
     }
   display.println("Return");
 
-  //Camera Speed Logic
+    //go to tune Menu
   if(counter == 1){
+    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
+    }
+  else{
+    display.setTextColor(SSD1306_WHITE);        // Draw white text
+    }
+  display.println("TUNE");
+
+  //Camera Direction Logic
+  if(counter == 2){
+    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
+    }
+  else{
+    display.setTextColor(SSD1306_WHITE);        // Draw white text
+    }
+  display.print("direction:");
+  display.setTextColor(SSD1306_WHITE);
+  if (moveLeft == true){
+    display.println(" Left");
+  }
+  else{
+    display.println(" Right");
+  }
+
+  //Camera Speed Logic
+  if(counter == 3){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -337,9 +362,9 @@ void  menuSpeedControl() {
     display.print(speedControl_speed);       //if we arn't changing anything display the saved value
   }
   display.println(" in/min");
- 
-  //Camera Angle Display Logic
-  if(counter == 2){
+
+//Camera Angle Display Logic
+  if(counter == 4){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -348,39 +373,13 @@ void  menuSpeedControl() {
   display.print("Camera Angle:");
   display.setTextColor(SSD1306_WHITE); 
   display.print(" ");
-  if (changeValue == true && counter == 2){     //if we are activily changing the angle display change counter
+  if (changeValue == true && counter == 4){     //if we are activily changing the angle display change counter
     display.print(changeCounter);
   } 
   else{
     display.print(speedControl_rDistance);     //otherwise change the stored value
   }
   display.println((char)223);
-  
-
-  //Camera Direction Logic
-  if(counter == 3){
-    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
-    }
-  else{
-    display.setTextColor(SSD1306_WHITE);        // Draw white text
-    }
-  display.print("direction:");
-  display.setTextColor(SSD1306_WHITE);
-  if (moveLeft == true){
-    display.println(" Left");
-  }
-  else{
-    display.println(" Right");
-  }
-
-  //go to tune Menu
-  if(counter == 4){
-    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
-    }
-  else{
-    display.setTextColor(SSD1306_WHITE);        // Draw white text
-    }
-  display.println("TUNE");
 
   //Start Shot Logic
   if(counter == menuOptionCount){
@@ -402,7 +401,7 @@ void  menuSpeedControl() {
 
 //MOTIONCONTROLL MENU
 void menuMotionControl() {
-  menuOptionCount = 5;
+  menuOptionCount = 6;
   display.clearDisplay();
   display.setTextColor(SSD1306_WHITE);        // Draw white text
   display.setTextSize(1.5);             // Normal 1:1 pixel scale   
@@ -419,60 +418,17 @@ void menuMotionControl() {
     }
   display.println("Return");
 
-  
+  //go to tune Menu
   if(counter == 1){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
     display.setTextColor(SSD1306_WHITE);        // Draw white text
-    } 
-  display.print("D-Away:");      
-  display.setTextColor(SSD1306_WHITE); 
-  display.print(" ");
-  if (changeValue == true && counter == 1){    //if we are activley changing the value display change counter instead of the saved value
-    display.print(changeCounter);
-  } 
-  else{
-    display.print(motionControl_dAway);       //if we arn't changing anything display the saved value
-  }
-  display.println("in");
-  
-  if(counter == 2){
-    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
-  else{
-    display.setTextColor(SSD1306_WHITE);        // Draw white text
-    } 
-  display.print("D-Down:");      
-  display.setTextColor(SSD1306_WHITE); 
-  display.print(" ");
-  if (changeValue == true && counter == 2){    //if we are activley changing the value display change counter instead of the saved value
-    display.print(changeCounter);
-  } 
-  else{
-    display.print(motionControl_dDown);       //if we arn't changing anything display the saved value
-  }
-  display.println("in");
-
-  if(counter == 3){
-    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
-    }
-  else{
-    display.setTextColor(SSD1306_WHITE);        // Draw white text
-    } 
-  display.print("Speed:");      
-  display.setTextColor(SSD1306_WHITE); 
-  display.print(" ");
-  if (changeValue == true && counter == 3){    //if we are activley changing the value display change counter instead of the saved value
-    display.print(changeCounter);
-  } 
-  else{
-    display.print(motionControl_speed);       //if we arn't changing anything display the saved value
-  }
-  display.println(" in/min");
+  display.println("TUNE");
 
   //Camera Direction Logic
-  if(counter == 4){
+  if(counter == 2){
 
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
@@ -486,7 +442,58 @@ void menuMotionControl() {
   }
   else{
     display.println(" Right");
+  }  
+  
+  if(counter == 3){
+    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
+    }
+  else{
+    display.setTextColor(SSD1306_WHITE);        // Draw white text
+    } 
+  display.print("D-Away:");      
+  display.setTextColor(SSD1306_WHITE); 
+  display.print(" ");
+  if (changeValue == true && counter == 3){    //if we are activley changing the value display change counter instead of the saved value
+    display.print(changeCounter);
+  } 
+  else{
+    display.print(motionControl_dAway);       //if we arn't changing anything display the saved value
   }
+  display.println("in");
+  
+  if(counter == 4){
+    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
+    }
+  else{
+    display.setTextColor(SSD1306_WHITE);        // Draw white text
+    } 
+  display.print("D-Down:");      
+  display.setTextColor(SSD1306_WHITE); 
+  display.print(" ");
+  if (changeValue == true && counter == 4){    //if we are activley changing the value display change counter instead of the saved value
+    display.print(changeCounter);
+  } 
+  else{
+    display.print(motionControl_dDown);       //if we arn't changing anything display the saved value
+  }
+  display.println("in");
+
+  if(counter == 5){
+    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
+    }
+  else{
+    display.setTextColor(SSD1306_WHITE);        // Draw white text
+    } 
+  display.print("Speed:");      
+  display.setTextColor(SSD1306_WHITE); 
+  display.print(" ");
+  if (changeValue == true && counter == 5){    //if we are activley changing the value display change counter instead of the saved value
+    display.print(changeCounter);
+  } 
+  else{
+    display.print(motionControl_speed);       //if we arn't changing anything display the saved value
+  }
+  display.println(" in/min");
 
   if(counter == menuOptionCount){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text

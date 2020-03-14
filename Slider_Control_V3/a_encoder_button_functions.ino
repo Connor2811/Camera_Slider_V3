@@ -193,12 +193,20 @@ void clicked() {                        //if the button on the encoder was click
       menu = homeMenuID;
     }
 
-    
-    else if (counter == 1 && changeValue == false){         //put controller in edit mode
+        else if (counter == 1){                     //if clicked on Run then run the configured operation
+        menu = menuTuneID + menu;
+        counter = 0;
+      } 
+
+    else if (counter == 2){                      //if clicked on direction -> FLIP
+      moveLeft = !moveLeft;   
+    }   
+      
+    else if (counter == 3 && changeValue == false){         //put controller in edit mode
       changeValue = true;
       changeCounter = speedControl_counter;             //speed is now loaded speed plus the counted encoder ticks
     }
-    else if( counter == 1 && changeValue == true){                     //exit edit mode
+    else if( counter == 3 && changeValue == true){                     //exit edit mode
       speedControl_speed = pow(changeCounter,3) * .0006;                      //update the value
       speedControl_counter = changeCounter;
       EEPROM.put(speedControl_speed_eeAddress, speedControl_speed);    //send value to eeprom
@@ -207,28 +215,18 @@ void clicked() {                        //if the button on the encoder was click
       changeValue = false;                                             //termiate edit mode
     }
 
-    else if (counter == 2 && changeValue == false){                    //put controller in edit mode
+    else if (counter == 4 && changeValue == false){                    //put controller in edit mode
       negative = true;
       changeValue = true;                                              
       changeCounter = speedControl_rDistance;          //angle is now loaded angle plus the counted encoder ticks
     }    
-    else if (counter == 2 && changeValue == true){                          //exit edit angle mode
+    else if (counter == 4 && changeValue == true){                          //exit edit angle mode
       negative = false;
       speedControl_rDistance = changeCounter;                               //update the stored angle
       EEPROM.put(speedControl_rDistance_eeAddress, speedControl_rDistance); //send new angle to eeprom
       changeCounter = 0;                                                    //reset change counter to zero for next time 
       changeValue = false;                                                  //termiate edit mode
     }
-
-    
-    else if (counter == 3){                      //if clicked on direction -> FLIP
-      moveLeft = !moveLeft;   
-    }
-
-    else if (counter == 4){                     //if clicked on Run then run the configured operation
-        menu = menuTuneID + menu;
-        counter = 0;
-      }    
     
     else if (counter == 5){                     //if clicked on Run then run the configured operation
       speedControl();                           //run the operation
@@ -242,49 +240,51 @@ void clicked() {                        //if the button on the encoder was click
       menu = homeMenuID;
     }
 
-    
-    else if (counter == 1 && changeValue == false){         //put controller in mode to edit value
+    else if (counter == 1){                     //if clicked on Run then run the configured operation
+        menu = menuTuneID + menu;
+        counter = 0;
+      } 
+
+    else if (counter == 2){                      //if clicked on direction -> FLIP
+      moveLeft = !moveLeft;    
+    }  
+
+    else if (counter == 3 && changeValue == false){         //put controller in mode to edit value
       changeValue = true;
       changeCounter = motionControl_dAway;                  //changeCounter is set to old value so it can be incremented by encoder()
     }
-    else if (counter == 1 && changeValue == true){                       //exit edit mode
+    else if (counter == 3 && changeValue == true){                       //exit edit mode
        motionControl_dAway = changeCounter;                              //update the value
        EEPROM.put(motionControl_dAway_eeAddress, motionControl_dAway);   //send value to eeprom
        changeCounter = 0;                                                //reset change counter to zero for next time
        changeValue = false;                                              //termiate edit mode
     }
 
-    else if (counter == 2 && changeValue == false){         //put controller in mode to edit value
+    else if (counter == 4 && changeValue == false){         //put controller in mode to edit value
       changeValue = true;
       changeCounter = motionControl_dDown;                  //value is now loaded value the counted encoder ticks
     }
-    else if (counter == 2 && changeValue == true){                       //exit edit mode
+    else if (counter == 4 && changeValue == true){                       //exit edit mode
        motionControl_dDown = changeCounter;                              //update the value
        EEPROM.put(motionControl_dDown_eeAddress, motionControl_dDown);   //send value to eeprom
        changeCounter = 0;                                                //reset change counter to zero for next time
        changeValue = false;                                              //termiate edit mode
     }
 
-    else if (counter == 3 && changeValue == false){         //put controller in mode to edit value
+    else if (counter == 5 && changeValue == false){         //put controller in mode to edit value
       changeValue = true;
       changeCounter = motionControl_speed;                  //value is now loaded value plus the counted encoder ticks
     }
-    else if (counter == 3 && changeValue == true){                       //exit edit mode
+    else if (counter == 5 && changeValue == true){                       //exit edit mode
        motionControl_speed = changeCounter;                              //update the value
        EEPROM.put(motionControl_speed_eeAddress, motionControl_speed);   //send value to eeprom
        changeCounter = 0;                                                //reset change counter to zero for next time
        changeValue = false;                                              //termiate edit mode
     }
     
-    else if (counter == 4){                      //if clicked on direction -> FLIP
-      moveLeft = !moveLeft;    
-    }
-
-    
-    else if (counter == 5){                     //if clicked on Run then run the configured operation
+    else if (counter == 6){                     //if clicked on Run then run the configured operation
       delay (10000);                            //give it a second to debounce the button
       motionControl();                          //run the operation
-      moveLeft = !moveLeft; 
     }
   }
 
