@@ -19,7 +19,7 @@ void speedControl(){
   
   angle = (speedControl_rDistance * 35.5552); //calculate angle from user configured values to 360degree scale
   pause =(((((length_Inches/speedControl_speed)*60)) * 1000000L) )/LENGTH;
-
+  runningPath = true;
     determineDirection();
     runStandardOp();
     returnToStart();
