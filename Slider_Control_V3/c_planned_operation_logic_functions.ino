@@ -38,78 +38,47 @@ void motionControl(){
   float calculatedAngle;
   float currentAngle = startAngle;
   float angleStepsTaken = 0;
-  int flip = true;
+  bool flip = true;
   float dTravled = 0;
-  int x = true;
   pause =(((motionControl_seconds) * 1000000L) + (motionControl_minutes * 60000000L) + (motionControl_hours * 3600000000L))/LENGTH;
   float myPause = (pause - ((25 * 1000000L)/LENGTH))/8;
-  //pause/55;
-  cancel = counter;                        //set cancel equal to the current counter value
+  cancel = counter;                             //set cancel equal to the current counter value
   delay (1000);                                //wait a sec to debounce
   
   for (float i = 0; i < LENGTH; i++){           //this for loop controls all the actual motor controll
-    if (dTravled < motionControl_dDown){
-      
-      if (( calculatedAngle - currentAngle)*4 > .1125){   //if the angle diffrence between the ideal current degree and the actual degree is greator than the size of a single step, than take a step.
-          digitalWrite(rotationStepPin, HIGH);   
-          digitalWrite(horizontalStepPin,HIGH);   
-          digitalWrite(rotationStepPin, LOW);   
-          digitalWrite(horizontalStepPin, LOW);
-        angleStepsTaken ++;
-        currentAngle =  calculatedAngle;
-      }
-      else {
-        digitalWrite(horizontalStepPin, HIGH);
-        digitalWrite(horizontalStepPin, LOW);   
-      } 
-      for(long i=0; i < myPause; i++){
-        delayMicroseconds(8);
-      }                //velocity delay controls how fast the camera moves, small value is fast and large value is slow
-  
-      dTravled = (i/2032);
-      calculatedAngle = atan(motionControl_dAway/(motionControl_dDown - dTravled))*(180/ M_PI);
-
-      
-      encoder();                                  //check if the encoder has changed direction and if it has exit the for loop
-      if (cancel != counter){
-      i = LENGTH;
-      runningPath = false;
-      }    
-    }  
-
-    //here we are past the 90 degree point and the math needs to change, otherwise we would be calculating negatives
-    else { 
-      if(x == true){
-        x = false;
-        currentAngle = 90;
-      }
-      
-      if ((currentAngle -  calculatedAngle) * 4 > .1125){   //if the angle diffrence between the ideal current degree and the actual degree is greator than the size of a single step, than take a step.
-          digitalWrite(rotationStepPin, HIGH);   
-          digitalWrite(horizontalStepPin,HIGH);   
-          digitalWrite(rotationStepPin, LOW);   
-          digitalWrite(horizontalStepPin, LOW);
-        angleStepsTaken ++;
-        currentAngle =  calculatedAngle;  
-      }
-      else {
-        digitalWrite(horizontalStepPin, HIGH);
-        digitalWrite(horizontalStepPin, LOW);   
-      } 
-      for(long i=0; i < myPause; i++){
-        delayMicroseconds(8);
-      }                
-  
-      dTravled = (i/2032);
-      calculatedAngle = atan(motionControl_dAway/(dTravled - motionControl_dDown))*(180/ M_PI);
-
-      
-      encoder();                                  //check if the encoder has changed direction and if it has exit the for loop
-      if (cancel != counter){
-      i = LENGTH;
-      runningPath = false;
-      }   
+         
+    if ( abs(calculatedAngle - currentAngle)*4 > .1125){   //if the angle diffrence between the ideal current degree and the actual degree is greator than the size of a single step, than take a step.
+      digitalWrite(rotationStepPin, HIGH);   
+      digitalWrite(horizontalStepPin,HIGH);   
+      digitalWrite(rotationStepPin, LOW);   
+      digitalWrite(horizontalStepPin, LOW);
+      angleStepsTaken ++;
+      currentAngle =  calculatedAngle;
     }
+    else {
+      digitalWrite(horizontalStepPin, HIGH);
+      digitalWrite(horizontalStepPin, LOW);   
+    } 
+    for(long i=0; i < myPause; i++){
+      delayMicroseconds(8);
+    }                //velocity delay controls how fast the camera moves, small value is fast and large value is slow
+  
+    dTravled = (i/2032);
+    if (dTravled < motionControl_dDown){
+      calculatedAngle = atan(motionControl_dAway/(motionControl_dDown - dTravled))*(180/ M_PI);
+    }
+    else{
+      calculatedAngle = atan(motionControl_dAway/(dTravled - motionControl_dDown))*(180/ M_PI);
+    }
+    if(flip == true && dTravled > motionControl_dDown){
+      flip = false;
+      currentAngle = 90;
+    }
+    encoder();                                  //check if the encoder has changed direction and if it has exit the for loop
+    if (cancel != counter){
+    i = LENGTH;
+    runningPath = false;
+    }      
   }  
   returnToStart();
   finishOp();
@@ -146,11 +115,11 @@ void runReset(){
 
 void enableSteppers(){
   if (stepperEnabled == true){
-    digitalWrite(disablePin, HIGH);            //enable stepper drivers
+    digitalWrite(disablePin, LOW);            //enable stepper drivers
   }
 
   else{
-    digitalWrite(disablePin, LOW);            //enable stepper drivers
+    digitalWrite(disablePin, HIGH);            //enable stepper drivers
   }
 }
 
