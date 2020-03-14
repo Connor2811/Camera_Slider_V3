@@ -135,6 +135,7 @@ void motionControl(){
 void runReset(){
   runningPath = true;                       //tell they system we are running an operation
   digitalWrite(disablePin, LOW);            //enable stepper drivers
+  stepperEnabled = true;
   
   if (moveLeft == true){ //check desired camera direction and flip the horizontal and rotation direction if needed
     digitalWrite(horizontalDirPin, HIGH);  //moveright
@@ -184,6 +185,7 @@ void returnToStart(){
 void runStandardOp(){
   if (runningPath == true){
     digitalWrite(disablePin, LOW);               //enable stepper drivers
+    stepperEnabled = true;
     cancel = counter;                            //set cancel equal to the current counter value
     delay (1000);                                //wait a sec to debounce
     angleTracking = 1;
@@ -238,6 +240,7 @@ void determineDirection(){
 void finishOp(){
     
   digitalWrite(disablePin, HIGH);    //turn everything off and set the running path to false.
+  stepperEnabled = false;
   runningPath = false;
   delay(500);
 }
