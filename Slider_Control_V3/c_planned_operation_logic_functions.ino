@@ -50,13 +50,13 @@ void motionControl(){
   for (float i = 0; i < LENGTH; i++){           //this for loop controls all the actual motor controll
     if (dTravled < motionControl_dDown){
       
-      if (((atan(motionControl_dAway/(motionControl_dDown - dTravled))*(180/ M_PI))- currentAngle)*4 > .1125){   //if the angle diffrence between the ideal current degree and the actual degree is greator than the size of a single step, than take a step.
+      if (( calculatedAngle - currentAngle)*4 > .1125){   //if the angle diffrence between the ideal current degree and the actual degree is greator than the size of a single step, than take a step.
           digitalWrite(rotationStepPin, HIGH);   
           digitalWrite(horizontalStepPin,HIGH);   
           digitalWrite(rotationStepPin, LOW);   
           digitalWrite(horizontalStepPin, LOW);
         angleStepsTaken ++;
-        currentAngle = atan(motionControl_dAway/(motionControl_dDown - dTravled))*(180/ M_PI);
+        currentAngle =  calculatedAngle;
       }
       else {
         digitalWrite(horizontalStepPin, HIGH);
@@ -84,13 +84,13 @@ void motionControl(){
         currentAngle = 90;
       }
       
-      if ((currentAngle - (atan(motionControl_dAway/(dTravled - motionControl_dDown))*(180/ M_PI)))*4 > .1125){   //if the angle diffrence between the ideal current degree and the actual degree is greator than the size of a single step, than take a step.
+      if ((currentAngle -  calculatedAngle) * 4 > .1125){   //if the angle diffrence between the ideal current degree and the actual degree is greator than the size of a single step, than take a step.
           digitalWrite(rotationStepPin, HIGH);   
           digitalWrite(horizontalStepPin,HIGH);   
           digitalWrite(rotationStepPin, LOW);   
           digitalWrite(horizontalStepPin, LOW);
         angleStepsTaken ++;
-        currentAngle = atan(motionControl_dAway/(dTravled - motionControl_dDown))*(180/ M_PI);  
+        currentAngle =  calculatedAngle;  
       }
       else {
         digitalWrite(horizontalStepPin, HIGH);
