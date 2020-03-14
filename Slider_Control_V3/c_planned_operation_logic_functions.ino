@@ -24,12 +24,12 @@ void timeControl(){
    }
   }
 
-  float angle = (timeControl_rDistance * 8.8888); //calculate angle from user configured values to 360degree scale
+  angle = (timeControl_rDistance * 8.8888); //calculate angle from user configured values to 360degree scale
   unsigned long pause =(((timeControl_seconds - 3) * 1000000L) + (timeControl_minutes * 60000000L) + (timeControl_hours * 3600000000L))/LENGTH;       
-  int cancel = counter;                        //set cancel equal to the current counter value
+  cancel = counter;                        //set cancel equal to the current counter value
   delay (1000);                                //wait a sec to debounce
 
-  float angleTracking = 1;
+  angleTracking = 1;
   for (long i = 0; i < LENGTH; i++){           //this for loop controls all the actual motor controll
     
     encoder();                                  //check if the encoder has changed direction and if it has exit the for loop
@@ -52,43 +52,8 @@ void timeControl(){
       delayMicroseconds(8);
     }    
   }
-  //reverse movement and reset to original location
-    if (movementDirection == "  right"){ //check desired camera direction and flip the horizontal and rotation direction if needed
-    digitalWrite(horizontalDirPin, LOW);  //moveright
-    digitalWrite(rotationlDirPin, LOW);   //move anticlockwise
-    if (timeControl_rDistance < 0){       //rotate camera opposite direction if degree value is negative
-      digitalWrite(rotationlDirPin, HIGH);
-    }
-  }
+  returnToStart();
     
-    if (movementDirection == "  left "){
-    digitalWrite(horizontalDirPin, HIGH);
-    digitalWrite(rotationlDirPin, HIGH);
-    if (timeControl_rDistance < 0){
-      digitalWrite(rotationlDirPin, LOW);
-   }
-  }
-  angleTracking = 1;
-  for (long i = 0; i < LENGTH; i++){
-        
-    encoder();                                  //check if the encoder has changed direction and if it has exit the for loop
-    if (cancel != counter){
-      i = LENGTH;
-    }
-    
-   if ( i  > angleTracking*(LENGTH/angle)) {            //step the camera angle motor a percentage of the time so it goes a percent of the total distace
-     digitalWrite(rotationStepPin, HIGH); 
-     digitalWrite(horizontalStepPin,HIGH);
-     digitalWrite(horizontalStepPin, LOW);  
-      digitalWrite(rotationStepPin, LOW);
-      angleTracking ++; 
-    }
-    else { 
-      digitalWrite( horizontalStepPin ,HIGH);  
-      digitalWrite(horizontalStepPin , LOW);    
-    }  
-      delayMicroseconds(50);
-  }
   digitalWrite(disablePin, HIGH);    //turn everything off and set the running path to false.
   runningPath = false;
   delay(500);
@@ -117,13 +82,13 @@ void speedControl(){
   }
 
   //inches per minute to steps per microsecond
-  float angle = (speedControl_rDistance * 8.8888); //calculate angle from user configured values to 360degree scale
+  angle = (speedControl_rDistance * 8.8888); //calculate angle from user configured values to 360degree scale
   float pause =(((((length_Inches/speedControl_speed)*60)) * 1000000L) )/LENGTH;
 
-  int cancel = counter;                                                  //set cancel equal to the current counter value
+  cancel = counter;                                                  //set cancel equal to the current counter value
   delay (1000);                                                          //wait a sec to debounce
   
-  float angleTracking = 1;
+  angleTracking = 1;
   for (long i = 0; i < LENGTH; i++){           //this for loop controls all the actual motor controll
     
     encoder();                                  //check if the encoder has changed direction and if it has exit the for loop
@@ -149,43 +114,7 @@ void speedControl(){
     
   } 
 
-  //reverse movement and reset to original location
-    if (movementDirection == "  right"){ //check desired camera direction and flip the horizontal and rotation direction if needed
-    digitalWrite(horizontalDirPin, LOW);  //moveright
-    digitalWrite(rotationlDirPin, LOW);   //move anticlockwise
-    if (timeControl_rDistance < 0){       //rotate camera opposite direction if degree value is negative
-      digitalWrite(rotationlDirPin, HIGH);
-    }
-  }
-    
-    if (movementDirection == "  left "){
-    digitalWrite(horizontalDirPin, HIGH);
-    digitalWrite(rotationlDirPin, HIGH);
-    if (timeControl_rDistance < 0){
-      digitalWrite(rotationlDirPin, LOW);
-   }
-  }
-  angleTracking = 1;
-  for (long i = 0; i < LENGTH; i++){
-        
-    encoder();                                  //check if the encoder has changed direction and if it has exit the for loop
-    if (cancel != counter){
-      i = LENGTH;
-    }
-    
-   if ( i  > angleTracking*(LENGTH/angle)) {            //step the camera angle motor a percentage of the time so it goes a percent of the total distace
-     digitalWrite(rotationStepPin, HIGH); 
-     digitalWrite(horizontalStepPin,HIGH);
-     digitalWrite(horizontalStepPin, LOW);  
-      digitalWrite(rotationStepPin, LOW);
-      angleTracking ++; 
-    }
-    else { 
-      digitalWrite( horizontalStepPin ,HIGH);  
-      digitalWrite(horizontalStepPin , LOW);    
-    }  
-      delayMicroseconds(50);
-  }
+  returnToStart();
   
   digitalWrite(disablePin, HIGH);    //turn everything off and set the running path to false.
   runningPath = false;
@@ -218,7 +147,7 @@ void motionControl(){
   float dTravled = 0;
   int x = true;
  float pause =(((((length_Inches/speedControl_speed)*60)) * 1000000L) )/LENGTH;
-  int cancel = counter;                        //set cancel equal to the current counter value
+  cancel = counter;                        //set cancel equal to the current counter value
   delay (1000);                                //wait a sec to debounce
   
   for (float i = 0; i < LENGTH; i++){           //this for loop controls all the actual motor controll
@@ -296,6 +225,8 @@ void motionControl(){
           
     }
   }  
+
+  returnToStart();
   
   digitalWrite(disablePin, HIGH);    //turn everything off and set the running path to false.
   runningPath = false;
@@ -314,7 +245,7 @@ void runReset(){
     digitalWrite(horizontalDirPin, HIGH);
   }
  
-  int cancel = counter;                        //set cancel equal to the current counter value
+  cancel = counter;                        //set cancel equal to the current counter value
   delay (1000);                                //wait a sec to debounce
   for (long i = 0; i < LENGTH;){           //this for loop controls all the actual motor controll
     
@@ -343,5 +274,46 @@ void enableSteppers(){
     if (stepperState == " enabled "){
   digitalWrite(disablePin, LOW);            //enable stepper drivers
   }
-  
+}
+
+
+
+void returnToStart(){
+    //reverse movement and reset to original location
+    if (movementDirection == "  right"){ //check desired camera direction and flip the horizontal and rotation direction if needed
+    digitalWrite(horizontalDirPin, LOW);  //moveright
+    digitalWrite(rotationlDirPin, LOW);   //move anticlockwise
+    if (timeControl_rDistance < 0){       //rotate camera opposite direction if degree value is negative
+      digitalWrite(rotationlDirPin, HIGH);
+    }
+  }
+    
+    if (movementDirection == "  left "){
+    digitalWrite(horizontalDirPin, HIGH);
+    digitalWrite(rotationlDirPin, HIGH);
+    if (timeControl_rDistance < 0){
+      digitalWrite(rotationlDirPin, LOW);
+   }
+  }
+  angleTracking = 1;
+  for (long i = 0; i < LENGTH; i++){
+        
+    encoder();                                  //check if the encoder has changed direction and if it has exit the for loop
+    if (cancel != counter){
+      i = LENGTH;
+    }
+    
+   if ( i  > angleTracking*(LENGTH/angle)) {            //step the camera angle motor a percentage of the time so it goes a percent of the total distace
+     digitalWrite(rotationStepPin, HIGH); 
+     digitalWrite(horizontalStepPin,HIGH);
+     digitalWrite(horizontalStepPin, LOW);  
+      digitalWrite(rotationStepPin, LOW);
+      angleTracking ++; 
+    }
+    else { 
+      digitalWrite( horizontalStepPin ,HIGH);  
+      digitalWrite(horizontalStepPin , LOW);    
+    }  
+      delayMicroseconds(50);
+  }
 }
