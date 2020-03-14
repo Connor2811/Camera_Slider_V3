@@ -1,6 +1,3 @@
-//testing github again
-
-//OLED DISPLAY
 #include <SPI.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
