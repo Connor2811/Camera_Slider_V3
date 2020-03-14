@@ -42,7 +42,8 @@ void motionControl(){
   float dTravled = 0;
   int x = true;
   pause =(((motionControl_seconds) * 1000000L) + (motionControl_minutes * 60000000L) + (motionControl_hours * 3600000000L))/LENGTH;
-  float myPause = pause/22.4;
+  float myPause = (pause - ((25 * 1000000L)/LENGTH))/8;
+  //pause/55;
   cancel = counter;                        //set cancel equal to the current counter value
   delay (1000);                                //wait a sec to debounce
   
