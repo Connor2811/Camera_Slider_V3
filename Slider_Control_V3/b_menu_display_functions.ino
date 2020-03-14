@@ -54,7 +54,7 @@ void  mainMenu() {
     display.setTextColor(SSD1306_WHITE);        // Draw white text
     }
   display.println("Global Values");  
-  display.drawBitmap(90, 22, image_data_Logosmall, 38, 42, 1);
+  //display.drawBitmap(90, 22, image_data_Logosmall, 38, 42, 1);
   
   display.display();  //displays the configured text
 
@@ -69,21 +69,12 @@ void  mainMenu() {
 //GLOBAL VALUES DISPLAY
 void menuGlobalValues(){
   menuOptionCount = 1;
-  display.clearDisplay();
-  display.setTextColor(SSD1306_WHITE);        // Draw white text
-  display.setTextSize(1.5);             // Normal 1:1 pixel scale   
-  display.setCursor(0,0);             // Start at top-left corner
+  commonMenu();
   display.println(F("Global Values"));
   display.setTextSize(1.75);
 
 
-  if(counter == 0){
-    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
-    }
-  else{
-    display.setTextColor(SSD1306_WHITE);                // Draw white text
-    }
-  display.println("Return");
+returnFunction();
 
   
 if(counter == 1){
@@ -122,21 +113,11 @@ void menuTune(){
     counter = 0;
   }
   menuOptionCount = 2;
-  display.clearDisplay();
-  display.setTextColor(SSD1306_WHITE);        // Draw white text
-  display.setTextSize(1.5);             // Normal 1:1 pixel scale   
-  display.setCursor(0,0);             // Start at top-left corner
+  commonMenu();             // Start at top-left corner
   display.println(F("TUNE OPTIONS"));
   display.setTextSize(1.75);
 
-
-  if(counter == 0){
-    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
-    }
-  else{
-    display.setTextColor(SSD1306_WHITE);                // Draw white text
-    }
-  display.println("Return");
+returnFunction();
 
   
   if(counter == 1){
@@ -172,10 +153,7 @@ void  menuTimeControl() {
 
   menuOptionCount = 7;                   //number of options on the menu
   int16_t i = 9;
-  display.clearDisplay();                //clear displau
-  display.setTextColor(SSD1306_WHITE);   // Draw white text
-  display.setTextSize(1.5);              // Normal 1:1 pixel scale   
-  display.setCursor(0,0);                // Start at top-left corner
+  commonMenu();               // Start at top-left corner
   display.println(F("Time Control"));
   display.setTextSize(1.75);
 
@@ -278,10 +256,7 @@ void  menuTimeControl() {
 void  menuSpeedControl() {
   menuOptionCount = 5;                   //number of options on the menu
   int16_t i = 9;
-  display.clearDisplay();                //clear displau
-  display.setTextColor(SSD1306_WHITE);   // Draw white text
-  display.setTextSize(1.5);              // Normal 1:1 pixel scale   
-  display.setCursor(0,0);                // Start at top-left corner
+  commonMenu();              // Start at top-left corner
   display.println(F("Speed Control"));
   display.setTextSize(1.75);
 
@@ -344,10 +319,7 @@ void  menuSpeedControl() {
 //MOTIONCONTROLL MENU
 void menuMotionControl() {
   menuOptionCount = 8;
-  display.clearDisplay();
-  display.setTextColor(SSD1306_WHITE);        // Draw white text
-  display.setTextSize(1.5);             // Normal 1:1 pixel scale   
-  display.setCursor(0,0);             // Start at top-left corner
+  commonMenu();           // Start at top-left corner
   display.println(F("Motion Control"));
   display.setTextSize(1.75);
 
@@ -462,10 +434,7 @@ if(counter == 5){
 void menuLoopControl() {
   menuOptionCount = 5;                   //number of options on the menu
   int16_t i = 9;
-  display.clearDisplay();                //clear displau
-  display.setTextColor(SSD1306_WHITE);   // Draw white text
-  display.setTextSize(1.5);              // Normal 1:1 pixel scale   
-  display.setCursor(0,0);                // Start at top-left corner
+  commonMenu();               // Start at top-left corner
   display.println(F("Loop Control"));
   display.setTextSize(1.75);
 
@@ -527,15 +496,8 @@ void menuLoopControl() {
 void commonMenus(){
   //display all of the options and highlight if they are selected
   if (counter <7){
-    if(counter == 0){
-      display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
-      }
-    else{
-      display.setTextColor(SSD1306_WHITE);        // Draw white text
-      }
-    display.println("Return");
-  }
-
+    
+    returnFunction();
     //go to tune Menu
   if (counter <7){
     if(counter == 1){
@@ -562,17 +524,15 @@ void commonMenus(){
     display.println(" Right");
   }
 }
+}
 
 void calculator(){
   menuOptionCount = 3;                   //number of options on the menu
   int16_t i = 9;
-  display.clearDisplay();                //clear displau
-  display.setTextColor(SSD1306_WHITE);   // Draw white text
-  display.setTextSize(1.5);              // Normal 1:1 pixel scale   
-  display.setCursor(0,0);                // Start at top-left corner
+  commonMenu();              // Start at top-left corner
   display.println(F("Calculator"));
   display.setTextSize(1.75);
-  
+  returnFunction();
   //Camera Speed Logic
   if(counter == 1){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
@@ -629,10 +589,6 @@ void calculator(){
   display.print("Shot Timing=");
   display.println(timeLapseLength/(finalVideoLength*frameRate));
 
-
-
-
-  
   display.display();  //update screen
   if(counter > menuOptionCount){  //loop cursor if it is greater than the number of options
    counter = menuOptionCount;
@@ -643,8 +599,25 @@ void calculator(){
 
 }
 
+void commonMenu(){
+  display.clearDisplay();
+  display.setTextColor(SSD1306_WHITE);        // Draw white text
+  display.setTextSize(1.5);             // Normal 1:1 pixel scale   
+  display.setCursor(0,0);             // Start at top-left corner
+}
 
-void runScreen(){
+void returnFunction(){
+  if(counter == 0){
+        display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
+        }
+      else{
+        display.setTextColor(SSD1306_WHITE);        // Draw white text
+        }
+      display.println("Return");
+    }
+
+
+/*void runScreen(){
    menuOptionCount = 5;
   display.clearDisplay();
   display.setTextColor(SSD1306_WHITE);        // Draw white text
@@ -654,4 +627,4 @@ void runScreen(){
   display.setTextSize(1.75);
   display.println("Scroll to Exit");
   display.display();
-}
+}*/
