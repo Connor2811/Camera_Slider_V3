@@ -201,15 +201,14 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 // Stored Values
   float LENGTH = length_Inches * Steps_Per_inch;  //converts the user set length into usable steps
   bool changeValue = false;                       //determines whether to configure the operation values or scroll down a menu, this is flipped by clicking encoder while over value
-  int changeCounter = 0;                          // if change value is true "changeCounter" will be changed instead of the normal "counter" value
-  bool runningPath = false;                       //tracks wether or not an operation is curretly running
-  unsigned long currentMicros;
-  bool negative = false;
-  float angleTracking;
-  unsigned int cancel;
-  float angle;
-  float pause;
-  bool stepperEnabled = false;
+  int changeCounter = 0;                          //if change value is true "changeCounter" will be changed instead of the normal "counter" value
+  bool runningPath = false;                       //tracks wether or not an operation is curretly running                     
+  bool negative = false;                          //determines weather the value being adjusted can go negative
+  float angleTracking;                            //tracks how many steps the rotation motor has gone
+  unsigned int cancel;                            //is set equal to encoder position and if position changes it cancels
+  float angle;                                    //saves the desired angle value and makes it global
+  float pause;                                    //delay between steps
+  bool stepperEnabled = false;                    //tracks the current power state of the steppers
   int twoTick = 0;
 
   
@@ -233,16 +232,17 @@ void setup() {
   digitalWrite(disablePin, HIGH);       //disables all steppers  
 
 //OLED DISPLAY  
- // display.clearDisplay();                    //Display Logo                                             // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
+  // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
     Serial.println(F("SSD1306 allocation failed"));
     for(;;);                                       // Don't proceed, loop forever
   }
-  display.clearDisplay();
-  display.drawBitmap(40, 16, image_data_logo, 40, 47, 1);
-  display.display();
+  
+  display.clearDisplay();                                 //display BaselineDesign logo
+  display.drawBitmap(40, 16, image_data_logo, 40, 47, 1); //(x, y, image_data_logo, height, width, 1)
+  display.display();                                      //write everything to the display and show
   delay(3000);
-  display.cp437(true);
+  display.cp437(true);                                    //allows for degrees to be shown
   
 //ENCODER
 
@@ -255,12 +255,11 @@ void setup() {
   
 //Menu Initioalization
   menu = homeMenuID;   //set the current screen to homescreen (this is defined again because it was sensing phantom presses on startup)
-
-  
 }
 
+
+
 void loop() {
-  //Serial.println(menu);
 //MENU ORGANIZATION 
   //sends the program to the function that matches the current desired screen
   if (menu == homeMenuID){

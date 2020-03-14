@@ -8,7 +8,7 @@ void encoder(){
                                            // If the previous and the current state of the outputA are different, that means a Pulse has occured
    if (aState != aLastState){              // If the outputB state is different to the outputA state, that means the encoder is rotating clockwise                           
      if (digitalRead(outputB) != aState) { //check to see if its spinning clockwise 
-       if (changeValue == false){          //if we are not trying to change a value increase "counter"
+       if (changeValue == false){          //if we are not trying to change a value increase check too see if we've done two clicks in that direction
         if (twoTick >= 1){
           counter ++;
           twoTick = 0;       
@@ -17,7 +17,7 @@ void encoder(){
           twoTick ++;            
         }
        }
-       else if (changeValue == true){ //if we are tyring to change a value increase "ChangeCounter" instead
+       else if (changeValue == true){         //if we are tyring to change a value increase "ChangeCounter" instead with each click being one adition
         changeCounter ++;
        } 
      } 
@@ -31,16 +31,15 @@ void encoder(){
           twoTick --;            
         }
       }
-      else if (changeValue == true && changeCounter > 0 && negative == false){   //if we are trying to change a value decrease "ChangeCounter" instead
+      else if (changeValue == true && changeCounter > 0 && negative == false){   //if we have already increased a value and it cant be negative then we can subtract
         changeCounter --;
       }
-      else if (changeValue == true && negative == true){   //if we are trying to change a value decrease "ChangeCounter" instead
+      else if (changeValue == true && negative == true){   //if we are trying to change a value that can be negative then go ahead and substract past 0
         changeCounter --;
       }
      }   
    } 
    aLastState = aState;                // Updates the previous state of the outputA with the current state
-  // Serial.println(changeCounter);
 }
 
 void clicked() {                        //if the button on the encoder was clicked this function will run
