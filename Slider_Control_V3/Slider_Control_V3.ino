@@ -213,16 +213,21 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 
 
 void setup() {
-//   for (int i = 0 ; i < EEPROM.length() ; i++) {
-//    EEPROM.write(i, 0);
- // }
-
-
-
-
-
-  
+/*
+  for (int i = 0 ; i < EEPROM.length() ; i++) {  //uncomment to clear memory
+    EEPROM.write(i, 0);
+  }
+*/
   Serial.begin(9600);
+
+//STEPPER
+  pinMode(horizontalStepPin, OUTPUT);  //defines all the stepper controll pis as outputs
+  pinMode(horizontalDirPin, OUTPUT);
+  pinMode(rotationStepPin, OUTPUT);
+  pinMode(rotationlDirPin, OUTPUT);  
+  pinMode(disablePin, OUTPUT);
+
+  digitalWrite(disablePin, HIGH);       //disables all steppers  
 
 //OLED DISPLAY  
  // display.clearDisplay();                    //Display Logo                                             // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
@@ -244,15 +249,6 @@ void setup() {
   pinMode(encoderButtonInterruptPin, INPUT_PULLUP); //defines encoder button intterupt pin
   attachInterrupt(digitalPinToInterrupt(encoderButtonInterruptPin), clicked, RISING);     //if encoderButtonInterruptPin is rising then stop everything and run clicked()
   attachInterrupt(digitalPinToInterrupt(encodeRotationrInterruptPin), encoder, CHANGE);   //if encodeRotationrInterruptPin has changed stop everything and run encoder()
-
-//STEPPER
-  pinMode(horizontalStepPin, OUTPUT);  //defines all the stepper controll pis as outputs
-  pinMode(horizontalDirPin, OUTPUT);
-  pinMode(rotationStepPin, OUTPUT);
-  pinMode(rotationlDirPin, OUTPUT);  
-  pinMode(disablePin, OUTPUT);
-
-  digitalWrite(disablePin, HIGH);       //disables all steppers
   
 //Menu Initioalization
   menu = homeMenuID;   //set the current screen to homescreen (this is defined again because it was sensing phantom presses on startup)

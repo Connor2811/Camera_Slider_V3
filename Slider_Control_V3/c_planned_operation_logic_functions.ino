@@ -119,7 +119,7 @@ void enableSteppers(){
   }
 
   else{
-    digitalWrite(disablePin, HIGH);            //enable stepper drivers
+    digitalWrite(disablePin, HIGH);            //disable stepper drivers
   }
 }
 
