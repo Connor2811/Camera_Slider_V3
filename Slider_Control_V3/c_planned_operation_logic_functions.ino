@@ -24,7 +24,7 @@ void timeControl(){
    }
   }
 
-  angle = (timeControl_rDistance * 8.8888); //calculate angle from user configured values to 360degree scale
+  angle = (timeControl_rDistance * 35.5552); //calculate angle from user configured values to 360degree scale
   unsigned long pause =(((timeControl_seconds - 3) * 1000000L) + (timeControl_minutes * 60000000L) + (timeControl_hours * 3600000000L))/LENGTH;       
   cancel = counter;                        //set cancel equal to the current counter value
   delay (1000);                                //wait a sec to debounce
@@ -82,7 +82,7 @@ void speedControl(){
   }
 
   //inches per minute to steps per microsecond
-  angle = (speedControl_rDistance * 8.8888); //calculate angle from user configured values to 360degree scale
+  angle = (speedControl_rDistance * 35.5552); //calculate angle from user configured values to 360degree scale
   float pause =(((((length_Inches/speedControl_speed)*60)) * 1000000L) )/LENGTH;
 
   cancel = counter;                                                  //set cancel equal to the current counter value
@@ -158,7 +158,7 @@ void motionControl(){
       
     //  Serial.println("");
       
-      if ((calculatedAngle - currentAngle) > .1125){   //if the angle diffrence between the ideal current degree and the actual degree is greator than the size of a single step, than take a step.
+      if ((calculatedAngle - currentAngle) > .028125){   //if the angle diffrence between the ideal current degree and the actual degree is greator than the size of a single step, than take a step.
         digitalWrite(rotationStepPin, HIGH);
         digitalWrite(horizontalStepPin,HIGH);
         digitalWrite(rotationStepPin, LOW);
@@ -197,7 +197,7 @@ void motionControl(){
      // Serial.println(" ");//after the camera has reached 90 degrees to the object the angles are flipped 
 
       
-      if ((currentAngle - (atan(motionControl_dAway/(dTravled - motionControl_dDown))*(180/ M_PI))) > .1125){   //if the angle diffrence between the ideal current degree and the actual degree is greator than the size of a single step, than take a step.
+      if ((currentAngle - (atan(motionControl_dAway/(dTravled - motionControl_dDown))*(180/ M_PI))) > .028125){   //if the angle diffrence between the ideal current degree and the actual degree is greator than the size of a single step, than take a step.
         digitalWrite(rotationStepPin, HIGH);
         digitalWrite(horizontalStepPin,HIGH);
         digitalWrite(rotationStepPin, LOW);
