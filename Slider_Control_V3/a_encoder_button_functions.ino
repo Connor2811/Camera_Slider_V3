@@ -72,6 +72,13 @@ void clicked() {                        //if the button on the encoder was click
           
     }
     else if (counter == 3){
+       menu = loopControlID;
+       EEPROM.get(moveLeft_eeAddress, moveLeft); 
+       EEPROM.get(loopControl_speed_eeAddress, loopControl_speed);           //load in EEPROM value for this modes settings
+       EEPROM.get(loopControl_rDistance_eeAddress, loopControl_rDistance);   //load in EEPROM value for this modes settings
+       EEPROM.get(loopControl_counter_eeAddress, loopControl_counter);       //load in EEPROM value for this modes settings  
+    }  
+    else if (counter == 4){
        menu = globalValuesID;
        EEPROM.get(length_Inches_eeAddress, length_Inches);           //load in EEPROM value for this modes settings
     }
@@ -317,6 +324,57 @@ void clicked() {                        //if the button on the encoder was click
       motionControl();                          //run the operation
     }
   }
+
+
+  //loopControlMenu Logic
+  else if (menu == loopControlID){
+    
+    
+    if (counter == 0){    //if we click on return send us back to the home menu
+      menu = homeMenuID;
+    }
+
+        else if (counter == 1){                     //if clicked on Run then run the configured operation
+        menu = menuTuneID + menu;
+        counter = 0;
+      } 
+
+    else if (counter == 2){                      //if clicked on direction -> FLIP
+      moveLeft = !moveLeft;
+      EEPROM.put(moveLeft_eeAddress, moveLeft);   //send value to eeprom   
+    }   
+      
+    else if (counter == 3 && changeValue == false){         //put controller in edit mode
+      changeValue = true;
+      changeCounter = loopControl_counter;             //speed is now loaded speed plus the counted encoder ticks
+    }
+    else if( counter == 3 && changeValue == true){                     //exit edit mode
+      loopControl_speed = pow(changeCounter,3) * .0006;                      //update the value
+      loopControl_counter = changeCounter;
+      EEPROM.put(loopControl_speed_eeAddress, loopControl_speed);    //send value to eeprom
+      EEPROM.put(loopControl_counter_eeAddress, loopControl_counter);    //send value to eeprom
+      changeCounter = 0;                                               //reset change counter to zero for next time
+      changeValue = false;                                             //termiate edit mode
+    }
+
+    else if (counter == 4 && changeValue == false){                    //put controller in edit mode
+      negative = true;
+      changeValue = true;                                              
+      changeCounter = loopControl_rDistance;          //angle is now loaded angle plus the counted encoder ticks
+    }    
+    else if (counter == 4 && changeValue == true){                          //exit edit angle mode
+      negative = false;
+      loopControl_rDistance = changeCounter;                               //update the stored angle
+      EEPROM.put(loopControl_rDistance_eeAddress, loopControl_rDistance); //send new angle to eeprom
+      changeCounter = 0;                                                    //reset change counter to zero for next time 
+      changeValue = false;                                                  //termiate edit mode
+    }
+    
+    else if (counter == 5){                     //if clicked on Run then run the configured operation
+      loopControl();                           //run the operation
+    }
+  }
+  
 
   
 }
