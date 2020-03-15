@@ -134,6 +134,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
   #define motionControlID 3
   #define loopControlID 4
   #define globalValuesID 5
+  #define calculatorID 6
   #define menuTuneID 100
   byte menuOptionCount;           //number of options availible on a given menu
   
@@ -209,6 +210,14 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 
 
   //CalculatorEEPROM
+  unsigned int frameRate = 0;                
+  #define frameRate_eeAddress 80        //Location of information in eeprom
+
+  unsigned int timeLapseLength = 0;        
+  #define timeLapseLength_eeAddress 84      //Location of information in eeprom
+  
+  unsigned int finalVideoLength = 0;      
+  #define finalVideoLength_eeAddress 88    //Location of information in eeprom
 
 
   
@@ -293,6 +302,9 @@ void loop() {
   }
   if (menu == globalValuesID){
     menuGlobalValues();
+  }
+  if (menu == calculatorID){
+    calculator();
   }
   if (menu > menuTuneID){
     menuTune();
