@@ -129,25 +129,11 @@ void clicked() {                        //if the button on the encoder was click
 
   
   //timeControlMenu Logic
-  else if (menu == timeControlID){
-       
+  else if (menu == timeControlID){    
     
-    if (counter == 0){    //if we click on return, send us back to the home menu
-      menu = homeMenuID;
-    }
-
-    else if (counter == 1){                     //if clicked on Run then run the configured operation
-        menu = menuTuneID + menu;
-        counter = 0;
-      }
-
-    else if (counter == 2){                      //if clicked on direction -> FLIP
-      EEPROM.get(moveLeft_eeAddress, moveLeft);
-      moveLeft = !moveLeft;  
-      EEPROM.put(moveLeft_eeAddress, moveLeft);   //send value to eeprom
-    }
+    commonClick();
     
-    else if (counter == 3 && changeValue == false){         //put controller in mode to edit seconds value
+    if (counter == 3 && changeValue == false){         //put controller in mode to edit seconds value
       changeValue = true;
       changeCounter = timeControl_seconds;                  //the encoder changeCounter value is now equal to timeControl_seconds and will be increased by the encoder function
     }
@@ -202,23 +188,9 @@ void clicked() {                        //if the button on the encoder was click
   //speedControlMenu Logic
   else if (menu == speedControlID){
     
-    
-    if (counter == 0){    //if we click on return send us back to the home menu
-      menu = homeMenuID;
-    }
-
-        else if (counter == 1){                     //if clicked on Run then run the configured operation
-        menu = menuTuneID + menu;
-        counter = 0;
-      } 
-
-    else if (counter == 2){                      //if clicked on direction -> FLIP
-      EEPROM.get(moveLeft_eeAddress, moveLeft);
-      moveLeft = !moveLeft;
-      EEPROM.put(moveLeft_eeAddress, moveLeft);   //send value to eeprom   
-    }   
+   commonClick();
       
-    else if (counter == 3 && changeValue == false){         //put controller in edit mode
+    if (counter == 3 && changeValue == false){         //put controller in edit mode
       changeValue = true;
       changeCounter = speedControl_counter;             //speed is now loaded speed plus the counted encoder ticks
     }
@@ -252,22 +224,9 @@ void clicked() {                        //if the button on the encoder was click
   //motionControlMenu Logic
   else if (menu == motionControlID){   //if in motion control mode run this     
     
-    if (counter == 0){    //if we click on return send us back to the home menu
-      menu = homeMenuID;
-    }
+    commonClick();
 
-    else if (counter == 1){                     //if clicked on Run then run the configured operation
-        menu = menuTuneID + menu;
-        counter = 0;
-      } 
-
-    else if (counter == 2){                      //if clicked on direction -> FLIP
-      EEPROM.get(moveLeft_eeAddress, moveLeft);
-      moveLeft = !moveLeft;
-      EEPROM.put(moveLeft_eeAddress, moveLeft);   //send value to eeprom    
-    }  
-
-    else if (counter == 3 && changeValue == false){         //put controller in mode to edit value
+    if (counter == 3 && changeValue == false){         //put controller in mode to edit value
       changeValue = true;
       changeCounter = motionControl_dAway;                  //changeCounter is set to old value so it can be incremented by encoder()
     }
@@ -331,24 +290,10 @@ void clicked() {                        //if the button on the encoder was click
 
   //loopControlMenu Logic
   else if (menu == loopControlID){
-    
-    
-    if (counter == 0){    //if we click on return send us back to the home menu
-      menu = homeMenuID;
-    }
 
-        else if (counter == 1){                     //if clicked on Run then run the configured operation
-        menu = menuTuneID + menu;
-        counter = 0;
-      } 
-
-    else if (counter == 2){                      //if clicked on direction -> FLIP
-      EEPROM.get(moveLeft_eeAddress, moveLeft);
-      moveLeft = !moveLeft;
-      EEPROM.put(moveLeft_eeAddress, moveLeft);   //send value to eeprom   
-    }   
+    commonClick();   
       
-    else if (counter == 3 && changeValue == false){         //put controller in edit mode
+    if (counter == 3 && changeValue == false){         //put controller in edit mode
       changeValue = true;
       changeCounter = loopControl_counter;             //speed is now loaded speed plus the counted encoder ticks
     }
@@ -381,4 +326,20 @@ void clicked() {                        //if the button on the encoder was click
   
 
   
+}
+
+void commonClick(){
+      if (counter == 0){    //if we click on return send us back to the home menu
+      menu = homeMenuID;
+    }
+
+        else if (counter == 1){                     //if clicked on Run then run the configured operation
+        menu = menuTuneID + menu;
+        counter = 0;
+      } 
+
+    else if (counter == 2){                      //if clicked on direction -> FLIP
+      moveLeft = !moveLeft;
+      EEPROM.put(moveLeft_eeAddress, moveLeft);   //send value to eeprom   
+    }
 }
