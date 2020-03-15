@@ -1,6 +1,4 @@
-#include <SPI.h>
-#include <Wire.h>
-#include <Adafruit_GFX.h>
+
 #include <Adafruit_SSD1306.h>
 #include <EEPROM.h>
 
@@ -12,7 +10,7 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 //char for logo displayed on startup
-/*static const unsigned char PROGMEM image_data_logo[] = {
+static const unsigned char PROGMEM image_data_logo[] = {
     0x00, 0x07, 0x80, 0x00, 0x00, 
     0x00, 0x07, 0xb0, 0x00, 0x00, 
     0x00, 0x07, 0x36, 0x00, 0x00, 
@@ -61,9 +59,9 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
     0x08, 0x91, 0x29, 0x14, 0x60, 
     0x0f, 0x1c, 0xc8, 0xe4, 0x60
 };
-*/
 
-/*//char for logo displayed on menu screen
+
+//char for logo displayed on menu screen
 static const unsigned char PROGMEM image_data_Logosmall[] = {
     0x00, 0x1c, 0x00, 0x00, 0x00, 
     0x00, 0x1d, 0x80, 0x00, 0x00, 
@@ -108,7 +106,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
     0x04, 0x91, 0x29, 0x29, 0x80, 
     0x07, 0x1c, 0xc8, 0xc9, 0x80
 };
-*/
+
 
 //ENCODER
  #define outputA 3      //first data input pin for the encoder
@@ -134,7 +132,6 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
   #define motionControlID 3
   #define loopControlID 4
   #define globalValuesID 5
-  #define calculatorID 6
   #define menuTuneID 100
   byte menuOptionCount;           //number of options availible on a given menu
   
@@ -209,17 +206,6 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
   #define loopControl_rDistance_eeAddress 76    //Location of information in eeprom
 
 
-  //CalculatorEEPROM
-  unsigned int frameRate = 0;                
-  #define frameRate_eeAddress 80        //Location of information in eeprom
-
-  unsigned int timeLapseLength = 0;        
-  #define timeLapseLength_eeAddress 84      //Location of information in eeprom
-  
-  unsigned int finalVideoLength = 0;      
-  #define finalVideoLength_eeAddress 88    //Location of information in eeprom
-
-
   
 // Stored Values
   unsigned long LENGTH = length_Inches * Steps_Per_inch;  //converts the user set length into usable steps
@@ -261,11 +247,11 @@ void setup() {
     for(;;);                                       // Don't proceed, loop forever
   }
   
- // display.clearDisplay();                                 //display BaselineDesign logo
-  //display.drawBitmap(40, 16, image_data_logo, 40, 47, 1); //(x, y, image_data_logo, height, width, 1)
-  //display.display();                                      //write everything to the display and show
-  //delay(3000);
- // display.cp437(true);                                    //allows for degrees to be shown
+  display.clearDisplay();                                 //display BaselineDesign logo
+  display.drawBitmap(40, 16, image_data_logo, 40, 47, 1); //(x, y, image_data_logo, height, width, 1)
+  display.display();                                      //write everything to the display and show
+  delay(3000);
+  display.cp437(true);                                    //allows for degrees to be shown
   
 //ENCODER
 
@@ -302,9 +288,6 @@ void loop() {
   }
   if (menu == globalValuesID){
     menuGlobalValues();
-  }
-  if (menu == calculatorID){
-    calculator();
   }
   if (menu > menuTuneID){
     menuTune();
