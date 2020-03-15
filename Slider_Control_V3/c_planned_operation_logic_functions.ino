@@ -102,6 +102,7 @@ void loopControl(){
 
 
 void runReset(){
+  
   runningPath = true;                       //tell they system we are running an operation
   digitalWrite(disablePin, LOW);            //enable stepper drivers
   stepperEnabled = true;
@@ -128,30 +129,35 @@ void runReset(){
   delayMicroseconds(80);       
   }
   finishOp();
+  
 }
 
 void enableSteppers(){
   if (stepperEnabled == true){
     digitalWrite(disablePin, LOW);            //enable stepper drivers
   }
-
   else{
     digitalWrite(disablePin, HIGH);            //disable stepper drivers
   }
 }
 
-
-
-void returnToStart(){
-    //reverse movement and reset to original location
-  EEPROM.get(moveLeft_eeAddress, moveLeft);
-  moveLeft = !moveLeft;
-  EEPROM.put(moveLeft_eeAddress, moveLeft);
-  determineDirection();  
-  moveLeft = !moveLeft;
-  EEPROM.put(moveLeft_eeAddress, moveLeft);
-  pause = 64;              //delay time of return speed (divide by 8 to get delay in microseconds)
-  runStandardOp();
+void determineDirection(){
+    EEPROM.get(moveLeft_eeAddress, moveLeft);
+    if (moveLeft == true){
+      digitalWrite(horizontalDirPin, LOW);
+      digitalWrite(rotationlDirPin, HIGH);
+      if (angle < 0){
+        digitalWrite(rotationlDirPin, LOW);
+      }
+    } 
+    else { //check desired camera direction and flip the horizontal and rotation direction if needed
+      digitalWrite(horizontalDirPin, HIGH);  //moveright
+      digitalWrite(rotationlDirPin, LOW);   //move anticlockwise
+      if (angle < 0){       //rotate camera opposite direction if degree value is negative
+        digitalWrite(rotationlDirPin, HIGH);
+        
+      }
+    }    
 }
 
 void runStandardOp(){
@@ -191,26 +197,17 @@ void runStandardOp(){
   }
 }
 
-
-void determineDirection(){
-    EEPROM.get(moveLeft_eeAddress, moveLeft);
-    if (moveLeft == true){
-      digitalWrite(horizontalDirPin, LOW);
-      digitalWrite(rotationlDirPin, HIGH);
-      if (angle < 0){
-        digitalWrite(rotationlDirPin, LOW);
-      }
-    } 
-    else { //check desired camera direction and flip the horizontal and rotation direction if needed
-      digitalWrite(horizontalDirPin, HIGH);  //moveright
-      digitalWrite(rotationlDirPin, LOW);   //move anticlockwise
-      if (angle < 0){       //rotate camera opposite direction if degree value is negative
-        digitalWrite(rotationlDirPin, HIGH);
-        
-      }
-    }    
+void returnToStart(){
+    //reverse movement and reset to original location
+  EEPROM.get(moveLeft_eeAddress, moveLeft);
+  moveLeft = !moveLeft;
+  EEPROM.put(moveLeft_eeAddress, moveLeft);
+  determineDirection();  
+  moveLeft = !moveLeft;
+  EEPROM.put(moveLeft_eeAddress, moveLeft);
+  pause = 64;              //delay time of return speed (divide by 8 to get delay in microseconds)
+  runStandardOp();
 }
-
 
 void finishOp(){
     

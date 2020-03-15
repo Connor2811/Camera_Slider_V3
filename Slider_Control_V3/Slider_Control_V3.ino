@@ -112,7 +112,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 //ENCODER
  #define outputA 3      //first data input pin for the encoder
  #define outputB 4      //second data input pin for the encoder
- double counter = 0;    //tracks how many clicks the encoder has had
+ int counter = 0;    //tracks how many clicks the encoder has had
  int aState;            //Value to store the current state of the Encoder
  int aLastState;        //Value to store the last state of the Encoder
  const byte encoderButtonInterruptPin = 2;        //inerupt pin attached to the encoders button  
@@ -126,7 +126,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 #define disablePin 9              //pin to dissable both stepper drivers
 
 //MENU LOGIC
-  int menu = 0;                  //menus are stored as numbers
+  byte menu = 0;                  //menus are stored as numbers
   #define homeMenuID 0           //numerical ID for all menu options
   #define timeControlID 1        
   #define speedControlID 2
@@ -134,7 +134,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
   #define loopControlID 4
   #define globalValuesID 5
   #define menuTuneID 100
-  int menuOptionCount;           //number of options availible on a given menu
+  byte menuOptionCount;           //number of options availible on a given menu
   
   
   
@@ -144,7 +144,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 
 
   //Global EEPROM
-  unsigned int length_Inches = 30;                //length of the slider rail in inches
+  byte length_Inches = 30;                //length of the slider rail in inches
   #define length_Inches_eeAddress 0               //Location of information in eeprom
 
   unsigned int Steps_Per_inch = 2032;             //save value to configure steps per in on the fly
@@ -158,44 +158,41 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
   float speedControl_speed = 0 ;                //speed of the horizontal slider while in speedControl Mode in inches per minute
   #define speedControl_speed_eeAddress 4        //Location of information in eeprom
 
-  unsigned int speedControl_counter = 0;        //speed of the horizontal slider while in speedControl Mode in inches per minute
+  byte speedControl_counter = 0;        //speed of the horizontal slider while in speedControl Mode in inches per minute
   #define speedControl_counter_eeAddress 48     //Location of information in eeprom
   
-  long speedControl_rDistance = 0;      //amount in degrees to rotate camera over one slide operation in speed control mode
+  int speedControl_rDistance = 0;      //amount in degrees to rotate camera over one slide operation in speed control mode
   #define speedControl_rDistance_eeAddress 8    //Location of information in eeprom
 
 
   //timeControl EEPROM 
-  unsigned int timeControl_seconds = 0;        //speed of the horizontal slider while in speedControl Mode
+  byte timeControl_seconds = 0;        //speed of the horizontal slider while in speedControl Mode
   #define timeControl_seconds_eeAddress 28     //Location of information in eeprom
 
-  unsigned int timeControl_minutes = 0;       //speed of the horizontal slider while in speedControl Mode
+  byte timeControl_minutes = 0;       //speed of the horizontal slider while in speedControl Mode
   #define timeControl_minutes_eeAddress 32    //Location of information in eeprom
 
-  unsigned int timeControl_hours = 0;        //speed of the horizontal slider while in speedControl Mode
+  byte timeControl_hours = 0;        //speed of the horizontal slider while in speedControl Mode
   #define timeControl_hours_eeAddress 36     //Location of information in eeprom
   
-  long timeControl_rDistance = 0;            //amount in degrees to rotate camera over one slide operation in speed control mode
+  int timeControl_rDistance = 0;            //amount in degrees to rotate camera over one slide operation in speed control mode
   #define timeControl_rDistance_eeAddress 40 //Location of information in eeprom
 
 
   //motionControl EEPROM
-  double motionControl_dAway = 0;            //Distance of object to be tracked tangent to the rail
+  byte motionControl_dAway = 0;            //Distance of object to be tracked tangent to the rail
   #define  motionControl_dAway_eeAddress 12  //Location of information in eeprom
 
-  double motionControl_dDown= 0;             //distance of the tracked object from theright side and parallel to the rail
+  byte motionControl_dDown= 0;             //distance of the tracked object from theright side and parallel to the rail
   #define  motionControl_dDown_eeAddress 16  //Location of information in eeprom
 
-  unsigned int motionControl_speed= 50;      //speed of the shot
-  #define  motionControl_speed_eeAddress 20  //Location of information in eeprom
-
-  unsigned int motionControl_seconds = 30;    //speed of the horizontal slider while in speedControl Mode
+  byte motionControl_seconds = 30;    //speed of the horizontal slider while in speedControl Mode
   #define motionControl_seconds_eeAddress 24  //Location of information in eeprom
 
-  unsigned int motionControl_minutes = 0;     //speed of the horizontal slider while in speedControl Mode
+  byte motionControl_minutes = 0;     //speed of the horizontal slider while in speedControl Mode
   #define motionControl_minutes_eeAddress 52  //Location of information in eeprom
 
-  unsigned int motionControl_hours = 0;       //speed of the horizontal slider while in speedControl Mode
+  byte motionControl_hours = 0;       //speed of the horizontal slider while in speedControl Mode
   #define motionControl_hours_eeAddress 56    //Location of information in eeprom
 
  
@@ -206,7 +203,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
   unsigned int loopControl_counter = 0;        //speed of the horizontal slider while in speedControl Mode in inches per minute
   #define loopControl_counter_eeAddress 73     //Location of information in eeprom
   
-  unsigned int loopControl_rDistance = 0;      //amount in degrees to rotate camera over one slide operation in speed control mode
+  int loopControl_rDistance = 0;      //amount in degrees to rotate camera over one slide operation in speed control mode
   #define loopControl_rDistance_eeAddress 76    //Location of information in eeprom
 
 
@@ -220,8 +217,8 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
   int changeCounter = 0;                          //if change value is true "changeCounter" will be changed instead of the normal "counter" value
   bool runningPath = false;                       //tracks wether or not an operation is curretly running                     
   bool negative = false;                          //determines weather the value being adjusted can go negative
-  float angleTracking;                            //tracks how many steps the rotation motor has gone
-  unsigned int cancel;                            //is set equal to encoder position and if position changes it cancels
+  unsigned int angleTracking;                            //tracks how many steps the rotation motor has gone
+  byte cancel;                                    //is set equal to encoder position and if position changes it cancels
   float angle;                                    //saves the desired angle value and makes it global
   float pause;                                    //delay between steps
   bool stepperEnabled = false;                    //tracks the current power state of the steppers
