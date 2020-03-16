@@ -62,7 +62,7 @@ void  mainMenu() {
     display.setTextColor(SSD1306_WHITE);        // Draw white text
     }
   display.println(F("Global Values"));  
-  //display.drawBitmap(90, 22, image_data_Logosmall, 38, 42, 1);
+  display.drawBitmap(90, 22, image_data_Logosmall, 38, 42, 1);
   
   display.display();  //displays the configured text
 

@@ -262,11 +262,11 @@ void setup() {
     for(;;);                                       // Don't proceed, loop forever
   }
   
- // display.clearDisplay();                                 //display BaselineDesign logo
-  //display.drawBitmap(40, 16, image_data_logo, 40, 47, 1); //(x, y, image_data_logo, height, width, 1)
-  //display.display();                                      //write everything to the display and show
-  //delay(3000);
- // display.cp437(true);                                    //allows for degrees to be shown
+  display.clearDisplay();                                 //display BaselineDesign logo
+  display.drawBitmap(40, 16, image_data_logo, 40, 47, 1); //(x, y, image_data_logo, height, width, 1)
+  display.display();                                      //write everything to the display and show
+  delay(3000);
+  display.cp437(true);                                    //allows for degrees to be shown
   
 //ENCODER
 
