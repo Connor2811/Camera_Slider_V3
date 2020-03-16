@@ -1,5 +1,5 @@
-#include <SPI.h>
-#include <Wire.h>
+//#include <SPI.h>
+//#include <Wire.h>
 
 
 #include <Adafruit_SSD1306.h>
@@ -13,7 +13,7 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 //char for logo displayed on startup
-/*static const unsigned char PROGMEM image_data_logo[] = {
+static const unsigned char PROGMEM image_data_logo[] = {
     0x00, 0x07, 0x80, 0x00, 0x00, 
     0x00, 0x07, 0xb0, 0x00, 0x00, 
     0x00, 0x07, 0x36, 0x00, 0x00, 
@@ -62,7 +62,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
     0x08, 0x91, 0x29, 0x14, 0x60, 
     0x0f, 0x1c, 0xc8, 0xe4, 0x60
 };
-*/
+
 
 
 //char for logo displayed on menu screen
@@ -230,8 +230,8 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
   bool negative = false;                          //determines weather the value being adjusted can go negative
   unsigned int angleTracking;                            //tracks how many steps the rotation motor has gone
   byte cancel;                                    //is set equal to encoder position and if position changes it cancels
-  float angle;                                    //saves the desired angle value and makes it global
-  float pause;                                    //delay between steps
+  //float angle;                                    //saves the desired angle value and makes it global
+ // float pause;                                    //delay between steps
   bool stepperEnabled = false;                    //tracks the current power state of the steppers
   int twoTick = 0;
 

@@ -5,24 +5,24 @@
 //OPERATION LOGIC FOR TIME CONTROLL
 void timeControl(){
  
-  angle = (timeControl_rDistance * 35.5552); //calculate angle from user configured values to 360degree scale
-  pause =(((timeControl_seconds) * 1000000L) + (timeControl_minutes * 60000000L) + (timeControl_hours * 3600000000L))/LENGTH;       
+  float angle = (timeControl_rDistance * 35.5552); //calculate angle from user configured values to 360degree scale
+  float pause =(((timeControl_seconds) * 1000000L) + (timeControl_minutes * 60000000L) + (timeControl_hours * 3600000000L))/LENGTH;       
   runningPath = true;
-    determineDirection();
-    runStandardOp();
-    returnToStart();
+    determineDirection(angle);
+    runStandardOp(pause, angle);
+    returnToStart(angle);
     finishOp();
 }
 
 //OPERATION LOGIC FOR SPEED CONTROLL
 void speedControl(){
   
-  angle = (speedControl_rDistance * 35.5552); //calculate angle from user configured values to 360degree scale
-  pause =(((((length_Inches/speedControl_speed)*60)) * 1000000L) )/LENGTH;
+  float angle = (speedControl_rDistance * 35.5552); //calculate angle from user configured values to 360degree scale
+   float pause =(((((length_Inches/speedControl_speed)*60)) * 1000000L) )/LENGTH;
   runningPath = true;
-    determineDirection();
-    runStandardOp();
-    returnToStart();
+    determineDirection(angle);
+    runStandardOp(pause, angle);
+    returnToStart(angle);
     finishOp();
 }
 
@@ -31,15 +31,15 @@ void motionControl(){
   runningPath = true;                       //tell they system we are running an operation
   digitalWrite(disablePin, LOW);            //enable stepper drivers
   stepperEnabled = true;
-  angle = ((atan(motionControl_dAway/motionControl_dDown)*(180/ M_PI))/.1125)*8; 
-  determineDirection();
+  float angle = ((atan(motionControl_dAway/motionControl_dDown)*(180/ M_PI))/.1125)*8; 
+  determineDirection(angle);
 
   float calculatedAngle;
   float currentAngle = atan(motionControl_dAway/motionControl_dDown)*(180/ M_PI);
   angleTracking = 0;
   bool flip = true;
   float dTravled = 0;
-  pause =(((motionControl_seconds) * 1000000L) + (motionControl_minutes * 60000000L) + (motionControl_hours * 3600000000L))/LENGTH;
+  float pause =(((motionControl_seconds) * 1000000L) + (motionControl_minutes * 60000000L) + (motionControl_hours * 3600000000L))/LENGTH;
   float myPause = (pause - ((25 * 1000000L)/LENGTH))/8;
   cancel = counter;                             //set cancel equal to the current counter value
   delay (1000);                                //wait a sec to debounce
@@ -78,19 +78,19 @@ void motionControl(){
     runningPath = false;
     }      
   }  
-  returnToStart();
+  returnToStart(angle);
   finishOp();
 }
 
 //OPERATION LOGIC FOR LOOP CONTROLL
 void loopControl(){
   
-  angle = (loopControl_rDistance * 35.5552); //calculate angle from user configured values to 360degree scale
-  pause =(((((length_Inches/loopControl_speed)*60)) * 1000000L) )/LENGTH;
+  float angle = (loopControl_rDistance * 35.5552); //calculate angle from user configured values to 360degree scale
+  float pause =(((((length_Inches/loopControl_speed)*60)) * 1000000L) )/LENGTH;
   runningPath = true;
   while(runningPath == true){
-    determineDirection();
-    runStandardOp();
+    determineDirection(angle);
+    runStandardOp(pause, angle);
     moveLeft = !moveLeft;
     EEPROM.put(moveLeft_eeAddress, moveLeft);
     delay(50000);
@@ -139,7 +139,7 @@ void enableSteppers(){
   }
 }
 
-void determineDirection(){
+void determineDirection(float angle){
     EEPROM.get(moveLeft_eeAddress, moveLeft);
     if (moveLeft == true){
       digitalWrite(horizontalDirPin, LOW);
@@ -158,7 +158,7 @@ void determineDirection(){
     }    
 }
 
-void runStandardOp(){
+void runStandardOp(float &pause, float &angle){
   if (runningPath == true){
     digitalWrite(disablePin, LOW);               //enable stepper drivers
     stepperEnabled = true;
@@ -195,16 +195,16 @@ void runStandardOp(){
   }
 }
 
-void returnToStart(){
+void returnToStart(float angle){
     //reverse movement and reset to original location
   EEPROM.get(moveLeft_eeAddress, moveLeft);
   moveLeft = !moveLeft;
   EEPROM.put(moveLeft_eeAddress, moveLeft);
-  determineDirection();  
+  determineDirection(angle);  
   moveLeft = !moveLeft;
   EEPROM.put(moveLeft_eeAddress, moveLeft);
-  pause = 64;              //delay time of return speed (divide by 8 to get delay in microseconds)
-  runStandardOp();
+  float pause = 64;              //delay time of return speed (divide by 8 to get delay in microseconds)
+  runStandardOp(pause, angle);
 }
 
 void finishOp(){
