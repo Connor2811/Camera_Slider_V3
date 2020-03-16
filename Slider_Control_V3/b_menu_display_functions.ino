@@ -609,6 +609,14 @@ void commonMenu(){
   display.setCursor(0,0);             // Start at top-left corner
 }
 
+
+void commonMenu(){
+  display.clearDisplay();
+  display.setTextColor(SSD1306_WHITE);        // Draw white text
+  display.setTextSize(1.5);             // Normal 1:1 pixel scale   
+  display.setCursor(0,0);             // Start at top-left corner
+}
+
 void returnFunction(){
   if(counter == 0){
         display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text

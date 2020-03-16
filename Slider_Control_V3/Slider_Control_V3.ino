@@ -1,6 +1,7 @@
 #include <SPI.h>
 #include <Wire.h>
-#include <Adafruit_GFX.h>
+
+
 #include <Adafruit_SSD1306.h>
 #include <EEPROM.h>
 
@@ -63,7 +64,8 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 };
 */
 
-/*//char for logo displayed on menu screen
+
+//char for logo displayed on menu screen
 static const unsigned char PROGMEM image_data_Logosmall[] = {
     0x00, 0x1c, 0x00, 0x00, 0x00, 
     0x00, 0x1d, 0x80, 0x00, 0x00, 
@@ -108,7 +110,6 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
     0x04, 0x91, 0x29, 0x29, 0x80, 
     0x07, 0x1c, 0xc8, 0xc9, 0x80
 };
-*/
 
 //ENCODER
  #define outputA 3      //first data input pin for the encoder

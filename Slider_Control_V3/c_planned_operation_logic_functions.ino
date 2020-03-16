@@ -31,13 +31,12 @@ void motionControl(){
   runningPath = true;                       //tell they system we are running an operation
   digitalWrite(disablePin, LOW);            //enable stepper drivers
   stepperEnabled = true;
-  angle = (atan(motionControl_dAway/motionControl_dDown)*(180/ M_PI))* 35.5552; 
+  angle = ((atan(motionControl_dAway/motionControl_dDown)*(180/ M_PI))/.1125)*8; 
   determineDirection();
 
-  float startAngle = atan(motionControl_dAway/motionControl_dDown)*(180/ M_PI);
   float calculatedAngle;
-  float currentAngle = 1;
-  float angleStepsTaken = 0;
+  float currentAngle = atan(motionControl_dAway/motionControl_dDown)*(180/ M_PI);
+  angleTracking = 0;
   bool flip = true;
   float dTravled = 0;
   pause =(((motionControl_seconds) * 1000000L) + (motionControl_minutes * 60000000L) + (motionControl_hours * 3600000000L))/LENGTH;
@@ -47,19 +46,19 @@ void motionControl(){
   
   for (float i = 0; i < LENGTH; i++){           //this for loop controls all the actual motor controll
          
-    if ( abs(calculatedAngle - currentAngle)*4 > .1125){   //if the angle diffrence between the ideal current degree and the actual degree is greator than the size of a single step, than take a step.
+    if ( abs(calculatedAngle - currentAngle)*4 >= .1125){   //if the angle diffrence between the ideal current degree and the actual degree is greator than the size of a single step, than take a step.
       digitalWrite(rotationStepPin, HIGH);   
       digitalWrite(horizontalStepPin,HIGH);   
       digitalWrite(rotationStepPin, LOW);   
       digitalWrite(horizontalStepPin, LOW);
-      angleStepsTaken ++;
-      currentAngle =  calculatedAngle;
+      angleTracking ++;
+      currentAngle = calculatedAngle;
     }
     else {
       digitalWrite(horizontalStepPin, HIGH);
       digitalWrite(horizontalStepPin, LOW);   
     } 
-    for(long i=0; i < myPause; i++){
+    for(long i=0; i <= myPause; i++){
       delayMicroseconds(8);
     }                //velocity delay controls how fast the camera moves, small value is fast and large value is slow
   
@@ -70,9 +69,8 @@ void motionControl(){
     else{
       calculatedAngle = atan(motionControl_dAway/(dTravled - motionControl_dDown))*(180/ M_PI);
     }
-    if(flip == true && dTravled > motionControl_dDown){
+    if(flip == true && dTravled >= motionControl_dDown){
       flip = false;
-      currentAngle = 90;
     }
     encoder();                                  //check if the encoder has changed direction and if it has exit the for loop
     if (cancel != counter){
@@ -166,7 +164,7 @@ void runStandardOp(){
     stepperEnabled = true;
     cancel = counter;                            //set cancel equal to the current counter value
     delay (1000);                                //wait a sec to debounce
-    angleTracking = 1;
+    angleTracking = 0;
     float myAngle = LENGTH/abs(angle);
     float myPause = pause/14;
     
@@ -182,7 +180,7 @@ void runStandardOp(){
         digitalWrite(horizontalStepPin, HIGH);   
         digitalWrite(rotationStepPin, LOW);   
         digitalWrite(horizontalStepPin, LOW);
-      angleTracking ++; 
+        angleTracking ++; 
      }
       
       else { 
