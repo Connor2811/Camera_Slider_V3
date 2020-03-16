@@ -157,7 +157,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 
   
   //speedControl EEPROM
-  unsigned int speedControl_speed = 0 ;                //speed of the horizontal slider while in speedControl Mode in inches per minute
+  float speedControl_speed = 0 ;                //speed of the horizontal slider while in speedControl Mode in inches per minute
   #define speedControl_speed_eeAddress 4        //Location of information in eeprom
 
   byte speedControl_counter = 0;        //speed of the horizontal slider while in speedControl Mode in inches per minute
@@ -199,7 +199,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 
  
   //loopControl EEPROM
-  unsigned int loopControl_speed = 0 ;                //speed of the horizontal slider while in speedControl Mode in inches per minute
+  float loopControl_speed = 0 ;                //speed of the horizontal slider while in speedControl Mode in inches per minute
   #define loopControl_speed_eeAddress 68        //Location of information in eeprom
 
   unsigned int loopControl_counter = 0;        //speed of the horizontal slider while in speedControl Mode in inches per minute
