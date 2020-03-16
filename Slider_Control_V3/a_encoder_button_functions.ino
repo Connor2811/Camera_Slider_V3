@@ -361,10 +361,10 @@ void clicked() {                        //if the button on the encoder was click
 
     else if (counter == 3 && changeValue == false){         //put controller in mode to edit seconds value
       changeValue = true;
-      changeCounter = frameRate;                  //the encoder changeCounter value is now equal to timeControl_seconds and will be increased by the encoder function
+      changeCounter = finalVideoLength;                  //the encoder changeCounter value is now equal to timeControl_seconds and will be increased by the encoder function
     }
     else if (counter == 3 && changeValue == true){                       //exit edit seconds mode
-       frameRate = changeCounter;                              //update the seconds with the tracked value
+       finalVideoLength = changeCounter;                              //update the seconds with the tracked value
        EEPROM.put(finalVideoLength_eeAddress, finalVideoLength);    //send value to eeprom
        changeCounter = 0;                                                //reset change counter to zero for next time
        changeValue = false;                                              //termiate edit mode

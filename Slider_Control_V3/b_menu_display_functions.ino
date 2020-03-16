@@ -5,7 +5,7 @@
 
 //MAINMENU DISPLAY
 void  mainMenu() {               
-  menuOptionCount = 4;                        //CHANGE ME: when more options are added
+  menuOptionCount = 5;                        //CHANGE ME: when more options are added
   display.clearDisplay();
   display.setTextColor(SSD1306_WHITE);        // Draw white text
   display.setTextSize(2);                     // Normal 1:1 pixel scale   
@@ -47,13 +47,21 @@ void  mainMenu() {
     }
   display.println("Loop Control");    
 
-  if(counter == 4){  //highlight text if the cursor matches its location
+    if(counter == 4){  //highlight text if the cursor matches its location
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
     display.setTextColor(SSD1306_WHITE);        // Draw white text
     }
-  display.println("Global Values");  
+  display.println(F("Calculator"));
+
+  if(counter == 5){  //highlight text if the cursor matches its location
+    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
+    }
+  else{
+    display.setTextColor(SSD1306_WHITE);        // Draw white text
+    }
+  display.println(F("Global Values"));  
   //display.drawBitmap(90, 22, image_data_Logosmall, 38, 42, 1);
   
   display.display();  //displays the configured text
@@ -547,15 +555,16 @@ void returnFunction(){
     }
 
 void calculator(){
+  
   menuOptionCount = 3;                   //number of options on the menu
   int16_t i = 9;
   display.clearDisplay();                //clear displau
   display.setTextColor(SSD1306_WHITE);   // Draw white text
   display.setTextSize(1.5);              // Normal 1:1 pixel scale   
   display.setCursor(0,0);                // Start at top-left corner
-  display.println(F("Calculator"));
+  display.println(F("Timelapse Calculator"));
   display.setTextSize(1.75);
-  
+  returnFunction();
   //Camera Speed Logic
   if(counter == 1){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
@@ -566,11 +575,11 @@ void calculator(){
   display.print("Framerate:");      
   display.setTextColor(SSD1306_WHITE); 
   display.print(" ");
-  if (changeValue == true && counter == 3){    //if we are activley changing the value display change counter instead of the saved value
-    display.print(changeCounter);
+  if (changeValue == true && counter == 1){    //if we are activley changing the value display change counter instead of the saved value
+    display.println(changeCounter);
   } 
   else{
-    display.print(frameRate);       //if we arn't changing anything display the saved value
+    display.println(frameRate);       //if we arn't changing anything display the saved value
   }
 
 //Camera Angle Display Logic
@@ -583,11 +592,44 @@ void calculator(){
   display.print("Shot Duration:");
   display.setTextColor(SSD1306_WHITE); 
   display.print(" ");
-  if (changeValue == true && counter == 4){     //if we are activily changing the angle display change counter
-    display.print(changeCounter);
-  } 
+  
+  
+  if (changeValue == true && counter == 2){     //if we are activily changing the angle display change counter
+    if(changeCounter>=12){
+      display.print(changeCounter/12);
+      display.print(":");
+     if(((changeCounter - (changeCounter/12)*12)) <= 1) {
+      display.print("0");
+     }
+      display.println((changeCounter - (changeCounter/12)*12)*5);  
+    }
+    else{ 
+      display.print("0");
+      display.print(":");
+      if(changeCounter <=1){
+        display.print("0");
+      }
+      display.println(changeCounter * 5);
+    }
+    }
+   
   else{
-    display.print(timeLapseLength);     //otherwise change the stored value
+     if(timeLapseLength>=12){
+        display.print(timeLapseLength/12);
+        display.print(":");
+        if(((timeLapseLength - (timeLapseLength/12)*12)) <= 1) {
+          display.print("0");
+        }
+        display.println((timeLapseLength - (timeLapseLength/12)*12)*5);  
+    }
+    else{ 
+        display.print("0");
+        display.print(":");
+        if(timeLapseLength <=1){
+        display.print("0");
+      }
+        display.println(timeLapseLength * 5);
+    }
   }
 
     if(counter == 3){
@@ -596,21 +638,21 @@ void calculator(){
   else{
     display.setTextColor(SSD1306_WHITE);        // Draw white text
     }
-  display.print("Video Length");
+  display.print("Video Length(sec):");
   display.setTextColor(SSD1306_WHITE); 
   display.print(" ");
-  if (changeValue == true && counter == 5){     //if we are activily changing the angle display change counter
-    display.print(changeCounter);
+  if (changeValue == true && counter == 3){     //if we are activily changing the angle display change counter
+    display.println(changeCounter);
   } 
   else{
-    display.print(finalVideoLength);     //otherwise change the stored value
+    display.println(finalVideoLength);     //otherwise change the stored value
   }
 
-  display.println("");
-  display.print("Shot Count=");
+  display.println(F("*********************"));
+  display.print(F("Shot Count: "));
   display.println(finalVideoLength*frameRate);
-  display.print("Shot Timing=");
-  display.println(timeLapseLength/(finalVideoLength*frameRate));
+  display.print(F("Shot Timing(s): "));
+  display.println(timeLapseLength*5*60/(finalVideoLength*frameRate));
 
 
 
