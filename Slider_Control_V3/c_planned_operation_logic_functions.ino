@@ -74,8 +74,8 @@ void motionControl(){
     }
     encoder();                                  //check if the encoder has changed direction and if it has exit the for loop
     if (cancel != counter){
-    i = LENGTH;
-    runningPath = false;
+      i = LENGTH;
+      runningPath = false;
     }      
   }  
   returnToStart(angle);
@@ -100,47 +100,7 @@ void loopControl(){
   finishOp();
 }
 
-
-void runReset(){
-  
-  runningPath = true;                       //tell they system we are running an operation
-  digitalWrite(disablePin, LOW);            //enable stepper drivers
-  stepperEnabled = true;
-  EEPROM.get(moveLeft_eeAddress, moveLeft);
-  
-  if (moveLeft == true){ //check desired camera direction and flip the horizontal and rotation direction if needed
-    digitalWrite(horizontalDirPin, HIGH);  //moveright
-  }
-  else{
-    digitalWrite(horizontalDirPin, LOW);
-  }
- 
-  cancel = counter;                        //set cancel equal to the current counter value
-  delay (1000);                                //wait a sec to debounce
-  for (long i = 0; i < LENGTH;){           //this for loop controls all the actual motor controll
-    
-  encoder();                                  //check if the encoder has changed direction and if it has exit the for loop
-  if (cancel != counter){
-    i = LENGTH;
-    runningPath = false;
-  }
-  digitalWrite( horizontalStepPin ,HIGH);  
-  digitalWrite(horizontalStepPin , LOW); 
-  delayMicroseconds(80);       
-  }
-  finishOp();
-  
-}
-
-void enableSteppers(){
-  if (stepperEnabled == true){
-    digitalWrite(disablePin, LOW);            //enable stepper drivers
-  }
-  else{
-    digitalWrite(disablePin, HIGH);            //disable stepper drivers
-  }
-}
-
+//DETERMINEDIRECTION LOGIC
 void determineDirection(float angle){
     EEPROM.get(moveLeft_eeAddress, moveLeft);
     if (moveLeft == true){
@@ -160,6 +120,7 @@ void determineDirection(float angle){
     }    
 }
 
+//RUNSTANDARDOP LOGIC
 void runStandardOp(float &pause, float &angle){
   if (runningPath == true){
     digitalWrite(disablePin, LOW);               //enable stepper drivers
@@ -197,6 +158,7 @@ void runStandardOp(float &pause, float &angle){
   }
 }
 
+//RETURNTOSTART LOGIC
 void returnToStart(float angle){
     //reverse movement and reset to original location
   EEPROM.get(moveLeft_eeAddress, moveLeft);
@@ -209,10 +171,50 @@ void returnToStart(float angle){
   runStandardOp(pause, angle);
 }
 
-void finishOp(){
-    
+//FINISH OPERATION LOGIC
+void finishOp(){   
   digitalWrite(disablePin, HIGH);    //turn everything off and set the running path to false.
   stepperEnabled = false;
   runningPath = false;
   delay(500);
+}
+
+//ENABLESTEPPER LOGIC
+void enableSteppers(){
+  if (stepperEnabled == true){
+    digitalWrite(disablePin, LOW);            //enable stepper drivers
+  }
+  else{
+    digitalWrite(disablePin, HIGH);            //disable stepper drivers
+  }
+}
+
+//JOG LOGIC
+void runReset(){
+  runningPath = true;                       //tell they system we are running an operation
+  digitalWrite(disablePin, LOW);            //enable stepper drivers
+  stepperEnabled = true;
+  EEPROM.get(moveLeft_eeAddress, moveLeft);
+  
+  if (moveLeft == true){ //check desired camera direction and flip the horizontal and rotation direction if needed
+    digitalWrite(horizontalDirPin, HIGH);  //moveright
+  }
+  else{
+    digitalWrite(horizontalDirPin, LOW);
+  }
+ 
+  cancel = counter;                        //set cancel equal to the current counter value
+  delay (1000);                            //wait a sec to debounce
+  for (long i = 0; i < LENGTH;){           //this for loop controls all the actual motor controll
+    
+    encoder();                             //check if the encoder has changed direction and if it has exit the for loop
+    if (cancel != counter){
+      i = LENGTH;
+      runningPath = false;
+    }
+    digitalWrite( horizontalStepPin ,HIGH);  
+    digitalWrite(horizontalStepPin , LOW); 
+    delayMicroseconds(80);       
+  }
+  finishOp();  
 }

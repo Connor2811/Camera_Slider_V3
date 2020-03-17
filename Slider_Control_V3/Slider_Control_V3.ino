@@ -1,7 +1,3 @@
-//#include <SPI.h>
-//#include <Wire.h>
-
-
 #include <Adafruit_SSD1306.h>
 #include <EEPROM.h>
 
@@ -114,7 +110,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 //ENCODER
  #define outputA 3      //first data input pin for the encoder
  #define outputB 4      //second data input pin for the encoder
- int counter = 0;    //tracks how many clicks the encoder has had
+ int counter = 0;       //tracks how many clicks the encoder has had
  int aState;            //Value to store the current state of the Encoder
  int aLastState;        //Value to store the last state of the Encoder
  const byte encoderButtonInterruptPin = 2;        //inerupt pin attached to the encoders button  
@@ -129,7 +125,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 
 //MENU LOGIC
   byte menu = 0;                  //menus are stored as numbers
-  #define homeMenuID 0           //numerical ID for all menu options
+  #define homeMenuID 0            //numerical ID for all menu options
   #define timeControlID 1        
   #define speedControlID 2
   #define motionControlID 3
@@ -147,78 +143,78 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 
 
   //Global EEPROM
-  byte length_Inches = 30;                //length of the slider rail in inches
+  byte length_Inches = 30;                        //length of the slider rail in inches
   #define length_Inches_eeAddress 0               //Location of information in eeprom
 
-  unsigned int Steps_Per_inch = 2032;             //save value to configure steps per in on the fly
-  #define Steps_Per_inch_eeAddress 44             //Location of information in eeprom
-
+  unsigned int Steps_Per_inch = 2032;             //save value to configure steps per-IN on the fly
+  #define Steps_Per_inch_eeAddress 4              //Location of information in eeprom
+  
   bool moveLeft = true;                           //stores the preferred direction of travel
-  #define moveLeft_eeAddress 60                   //Location of information in eeprom
+  #define moveLeft_eeAddress 8                    //Location of information in eeprom
 
   
   //speedControl EEPROM
-  float speedControl_speed = 0 ;                //speed of the horizontal slider while in speedControl Mode in inches per minute
-  #define speedControl_speed_eeAddress 4        //Location of information in eeprom
+  float speedControl_speed = 0 ;                  //speed of the horizontal slider while in speedControl Mode in inches per minute
+  #define speedControl_speed_eeAddress 12         //Location of information in eeprom
 
-  unsigned int speedControl_counter = 0;        //speed of the horizontal slider while in speedControl Mode in inches per minute
-  #define speedControl_counter_eeAddress 48     //Location of information in eeprom
+  unsigned int speedControl_counter = 0;          //enables the use of an exponetial function to tune the speed
+  #define speedControl_counter_eeAddress 16       //Location of information in eeprom
   
-  int speedControl_rDistance = 0;      //amount in degrees to rotate camera over one slide operation in speed control mode
-  #define speedControl_rDistance_eeAddress 8    //Location of information in eeprom
+  int speedControl_rDistance = 0;                 //amount in degrees to rotate camera over one slide operation in speed control mode
+  #define speedControl_rDistance_eeAddress 20     //Location of information in eeprom
 
 
   //timeControl EEPROM 
-  byte timeControl_seconds = 0;        //speed of the horizontal slider while in speedControl Mode
-  #define timeControl_seconds_eeAddress 28     //Location of information in eeprom
+  byte timeControl_seconds = 0;                   //speed of the horizontal slider while in timeControl Mode
+  #define timeControl_seconds_eeAddress 24        //Location of information in eeprom
 
-  byte timeControl_minutes = 0;       //speed of the horizontal slider while in speedControl Mode
-  #define timeControl_minutes_eeAddress 32    //Location of information in eeprom
+  byte timeControl_minutes = 0;                   //time of movement in minutes
+  #define timeControl_minutes_eeAddress 28        //Location of information in eeprom
 
-  byte timeControl_hours = 0;        //speed of the horizontal slider while in speedControl Mode
-  #define timeControl_hours_eeAddress 36     //Location of information in eeprom
+  byte timeControl_hours = 0;                     //time of movement in hours
+  #define timeControl_hours_eeAddress 32          //Location of information in eeprom
   
-  int timeControl_rDistance = 0;            //amount in degrees to rotate camera over one slide operation in speed control mode
-  #define timeControl_rDistance_eeAddress 40 //Location of information in eeprom
+  int timeControl_rDistance = 0;                  //amount in degrees to rotate camera over one slide operation in timeControl mode
+  #define timeControl_rDistance_eeAddress 36      //Location of information in eeprom
 
 
   //motionControl EEPROM
-  byte motionControl_dAway = 0;            //Distance of object to be tracked tangent to the rail
-  #define  motionControl_dAway_eeAddress 12  //Location of information in eeprom
+  byte motionControl_dAway = 0;                   //Distance of object to be tracked tangent to the rail
+  #define  motionControl_dAway_eeAddress 40       //Location of information in eeprom
 
-  byte motionControl_dDown= 0;             //distance of the tracked object from theright side and parallel to the rail
-  #define  motionControl_dDown_eeAddress 16  //Location of information in eeprom
+  byte motionControl_dDown= 0;                    //distance of the tracked object from the from the camera and parallel to the rail
+  #define  motionControl_dDown_eeAddress 44       //Location of information in eeprom
 
-  byte motionControl_seconds = 30;    //speed of the horizontal slider while in speedControl Mode
-  #define motionControl_seconds_eeAddress 24  //Location of information in eeprom
+  byte motionControl_seconds = 30;                //time of movement in seconds
+  #define motionControl_seconds_eeAddress 48      //Location of information in eeprom
 
-  byte motionControl_minutes = 0;     //speed of the horizontal slider while in speedControl Mode
-  #define motionControl_minutes_eeAddress 52  //Location of information in eeprom
+  byte motionControl_minutes = 0;                 //time of movment in minutes
+  #define motionControl_minutes_eeAddress 52      //Location of information in eeprom
 
-  byte motionControl_hours = 0;       //speed of the horizontal slider while in speedControl Mode
-  #define motionControl_hours_eeAddress 56    //Location of information in eeprom
+  byte motionControl_hours = 0;                   //time of the movement in hours
+  #define motionControl_hours_eeAddress 56        //Location of information in eeprom
 
  
   //loopControl EEPROM
-  float loopControl_speed = 0 ;                //speed of the horizontal slider while in speedControl Mode in inches per minute
-  #define loopControl_speed_eeAddress 68        //Location of information in eeprom
+  float loopControl_speed = 0 ;                   //speed of the horizontal slider while in loopControl Mode in inches per minute
+  #define loopControl_speed_eeAddress 60          //Location of information in eeprom
 
-  unsigned int loopControl_counter = 0;        //speed of the horizontal slider while in speedControl Mode in inches per minute
-  #define loopControl_counter_eeAddress 73     //Location of information in eeprom
+  unsigned int loopControl_counter = 0;           //tracks the ticks and saves them enabling an exponetial scroll curve
+  #define loopControl_counter_eeAddress 64        //Location of information in eeprom
   
-  int loopControl_rDistance = 0;      //amount in degrees to rotate camera over one slide operation in speed control mode
-  #define loopControl_rDistance_eeAddress 76    //Location of information in eeprom
+  int loopControl_rDistance = 0;                  //amount in degrees to rotate camera over one slide operation
+  #define loopControl_rDistance_eeAddress 68      //Location of information in eeprom
 
 
   //CalculatorEEPROM
-  byte frameRate = 0;                
-  #define frameRate_eeAddress 80        //Location of information in eeprom
+  byte frameRate = 0;                             //stores the desired framerate value
+  #define frameRate_eeAddress 72                  //Location of information in eeprom
 
-  byte timeLapseLength = 0;        
-  #define timeLapseLength_eeAddress 84      //Location of information in eeprom
+  byte timeLapseLength = 0;                       //stores the duration of the timeplase
+  #define timeLapseLength_eeAddress 76            //Location of information in eeprom
   
-  byte finalVideoLength = 0;      
-  #define finalVideoLength_eeAddress 88    //Location of information in eeprom
+  byte finalVideoLength = 0;                      //stores the desired final video length
+  #define finalVideoLength_eeAddress 80           //Location of information in eeprom
 
 
   
@@ -228,17 +224,17 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
   int changeCounter = 0;                          //if change value is true "changeCounter" will be changed instead of the normal "counter" value
   bool runningPath = false;                       //tracks wether or not an operation is curretly running                     
   bool negative = false;                          //determines weather the value being adjusted can go negative
-  unsigned int angleTracking;                            //tracks how many steps the rotation motor has gone
+  unsigned int angleTracking;                     //tracks how many steps the rotation motor has gone
   byte cancel;                                    //is set equal to encoder position and if position changes it cancels
   bool stepperEnabled = false;                    //tracks the current power state of the steppers
-  int twoTick = 0;
+  int twoTick = 0;                                //is increased or decrease one for every click of the encoder, this makes scroll take two clicks and minimizes mis-spins
 
   
 
 
 void setup() {
 /*
-  for (int i = 0 ; i < EEPROM.length() ; i++) {  //uncomment to clear memory
+  for (int i = 0 ; i < EEPROM.length() ; i++) {  //uncomment to clear eeprom memory
     EEPROM.write(i, 0);
   }
 */
@@ -251,20 +247,21 @@ void setup() {
   pinMode(rotationlDirPin, OUTPUT);  
   pinMode(disablePin, OUTPUT);
 
-  digitalWrite(disablePin, HIGH);       //disables all steppers  
+  digitalWrite(disablePin, HIGH);       //disables all steppers   right off the bat
 
 //OLED DISPLAY  
+  //check to see if we have enough Sram to run the oled screen
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
     Serial.println(F("SSD1306 allocation failed"));
     for(;;);                                       // Don't proceed, loop forever
   }
   
-  display.clearDisplay();                                 //display BaselineDesign logo
+  display.clearDisplay();                                 //clear the screens cache of any information
   display.drawBitmap(40, 16, image_data_logo, 40, 47, 1); //(x, y, image_data_logo, height, width, 1)
-  display.display();                                      //write everything to the display and show
+  display.display();                                      //write everything to the display and show the BaselineDesign logo
   delay(3000);
-  display.cp437(true);                                    //allows for degrees to be shown
+  display.cp437(true);                                    //allows for degree symbol to be shown
   
 //ENCODER
 
@@ -276,36 +273,36 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(encodeRotationrInterruptPin), encoder, CHANGE);   //if encodeRotationrInterruptPin has changed stop everything and run encoder()
   
 //Menu Initioalization
-  menu = homeMenuID;   //set the current screen to homescreen (this is defined again because it was sensing phantom presses on startup)
+  menu = homeMenuID;                    //set the current screen to homescreen (this is defined again because it was sensing phantom presses on startup)
 }
 
 
 
 void loop() {
 //MENU ORGANIZATION 
-  //sends the program to the function that matches the current desired screen
+  //sends the program to the correct menu depending on what has been selected 
   if (menu == homeMenuID){
-    mainMenu();
+    mainMenu();                     //menu where all sub-menus are selected. This screen also displays a logo in the corner
   }
   if (menu == timeControlID){
-    menuTimeControl();
+    menuTimeControl();              //define the camera rotation amount, direction and duration of the shot and the slider will run the planned path
   }
   if (menu == speedControlID){
-    menuSpeedControl();
+    menuSpeedControl();             //same as timeControll except instead of setting a duration you set a speed in in/min
   }
   if (menu == motionControlID){
-    menuMotionControl();
+    menuMotionControl();            //used to do panning tracking shots of objects, plug in the objects location and a duration
   }
   if (menu == loopControlID){
-    menuLoopControl();
+    menuLoopControl();              //set a speed and angle and the slider will loop this plan untill the operation is aborted
   }
   if (menu == globalValuesID){
-    menuGlobalValues();
+    menuGlobalValues();             //allows user to customize any global variables of the slider such as length
   }
   if (menu == calculatorID){
-    calculator();
+    calculator();                   //calculates the number of pictures and time between pictures when given framerate, length of shot, and desired length of the final video
   }
   if (menu > menuTuneID){
-    menuTune();
+    menuTune();                     //from any mode go to this menu to enable steppers and jog the carrige
   }
 }

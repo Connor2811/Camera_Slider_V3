@@ -1,4 +1,4 @@
-//Following functions controll the actual displaying of the menus
+//Following functions control the actual displaying of the menus
 
 
 
@@ -66,7 +66,7 @@ void  mainMenu() {
   
   display.display();  //displays the configured text
 
-  if(counter > menuOptionCount){ //loop cursor if it is now larger than the number of options
+  if(counter > menuOptionCount){                //loop cursor if it is now larger than the number of options
     counter = menuOptionCount;
   }
   if (counter < 0){
@@ -75,21 +75,19 @@ void  mainMenu() {
 }
 
 //GLOBAL VALUES DISPLAY
-void menuGlobalValues(){
+void menuGlobalValues(){      //menu where the global values are set           
   menuOptionCount = 1;
-  commonMenu();
-  display.println(F("Global Values"));
+  commonMenu();               //run the logic that most menus have
+  display.println(F("Global Values")); 
   display.setTextSize(1.75);
 
-
-returnFunction();
-
+  returnFunction();      //display the return menu and and highlight if on it
   
-if(counter == 1){
-    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
+  if(counter == 1){
+    display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); //Draw 'inverse' text
     }
   else{
-    display.setTextColor(SSD1306_WHITE);        // Draw white text
+    display.setTextColor(SSD1306_WHITE);               // Draw white text
     } 
   display.print("Rail Length");      
   display.setTextColor(SSD1306_WHITE); 
@@ -112,7 +110,7 @@ if(counter == 1){
 
 
 //TUNE MENU DISPLAY
-void menuTune(){
+void menuTune(){      //here we enable the steppers and jog the carrige
   
   if(counter > menuOptionCount){
     counter = menuOptionCount;
@@ -125,9 +123,8 @@ void menuTune(){
   display.println(F("TUNE OPTIONS"));
   display.setTextSize(1.75);
 
-returnFunction();
+  returnFunction();
 
-  
   if(counter == 1){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
@@ -141,7 +138,6 @@ returnFunction();
   else{
     display.println(" Disabled");    
   }
-
 
   if(counter == 2){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
@@ -159,9 +155,11 @@ returnFunction();
 //TIMECONTROLL MENU
 void  menuTimeControl() {
 
-  menuOptionCount = 7;                   //number of options on the menu
+  menuOptionCount = 7;               //number of options on the menu
   int16_t i = 9;
-  commonMenu();               // Start at top-left corner
+ 
+  commonMenu();    
+                  
   display.println(F("Time Control"));
   display.setTextSize(1.75);
 
@@ -288,7 +286,7 @@ void  menuSpeedControl() {
   }
   display.println(" in/min");
 
-//Camera Angle Display Logic
+  //Camera Angle Display Logic
   if(counter == 4){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
@@ -367,7 +365,7 @@ void menuMotionControl() {
   }
   display.println("in");
 
-if(counter == 5){
+  if(counter == 5){
     display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
     }
   else{
@@ -669,7 +667,7 @@ void calculator(){
 
 }
 
-
+//screen for displaying current status of the path (not working)
 /*void runScreen(){
    menuOptionCount = 5;
   display.clearDisplay();
