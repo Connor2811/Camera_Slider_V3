@@ -94,7 +94,7 @@ void loopControl(){
     if(runningPath == true){
       moveLeft = !moveLeft;
       EEPROM.put(moveLeft_eeAddress, moveLeft);
-      delay(50000);
+      delay(10000);
     }
   }
   finishOp();
@@ -104,14 +104,14 @@ void loopControl(){
 void determineDirection(float angle){
     EEPROM.get(moveLeft_eeAddress, moveLeft);
     if (moveLeft == true){
-      digitalWrite(horizontalDirPin, LOW);
+      digitalWrite(horizontalDirPin, HIGH);
       digitalWrite(rotationlDirPin, HIGH);
       if (angle < 0){
         digitalWrite(rotationlDirPin, LOW);
       }
     } 
     else { //check desired camera direction and flip the horizontal and rotation direction if needed
-      digitalWrite(horizontalDirPin, HIGH);  //moveright
+      digitalWrite(horizontalDirPin, LOW);  //moveright
       digitalWrite(rotationlDirPin, LOW);   //move anticlockwise
       if (angle < 0){       //rotate camera opposite direction if degree value is negative
         digitalWrite(rotationlDirPin, HIGH);
