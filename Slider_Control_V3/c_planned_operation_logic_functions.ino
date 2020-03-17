@@ -5,8 +5,8 @@
 //OPERATION LOGIC FOR TIME CONTROLL
 void timeControl(){
  
-  float angle = (timeControl_rDistance * 35.5552); //calculate angle from user configured values to 360degree scale
-  float pause =(((timeControl_seconds) * 1000000L) + (timeControl_minutes * 60000000L) + (timeControl_hours * 3600000000L))/LENGTH;       
+  float angle = (float(timeControl_rDistance) * 35.5552); //calculate angle from user configured values to 360degree scale
+  float pause =(((timeControl_seconds) * 1000000L) + (timeControl_minutes * 60000000L) + (timeControl_hours * 3600000000L))/float(LENGTH);       
   runningPath = true;
     determineDirection(angle);
     runStandardOp(pause, angle);
@@ -17,8 +17,8 @@ void timeControl(){
 //OPERATION LOGIC FOR SPEED CONTROLL
 void speedControl(){
   
-  float angle = (speedControl_rDistance * 35.5552); //calculate angle from user configured values to 360degree scale
-   float pause =(((((length_Inches/speedControl_speed)*60)) * 1000000L) )/LENGTH;
+  float angle = (float(speedControl_rDistance) * 35.5552); //calculate angle from user configured values to 360degree scale
+  float pause =(((((length_Inches/speedControl_speed)*60)) * 1000000L))/float(LENGTH);
   runningPath = true;
     determineDirection(angle);
     runStandardOp(pause, angle);
@@ -39,8 +39,8 @@ void motionControl(){
   angleTracking = 0;
   bool flip = true;
   float dTravled = 0;
-  float pause =(((motionControl_seconds) * 1000000L) + (motionControl_minutes * 60000000L) + (motionControl_hours * 3600000000L))/LENGTH;
-  float myPause = (pause - ((25 * 1000000L)/LENGTH))/8;
+  float pause =(((motionControl_seconds) * 1000000L) + (motionControl_minutes * 60000000L) + (motionControl_hours * 3600000000L))/float(LENGTH);
+  float myPause = (pause - ((25 * 1000000L)/float(LENGTH)))/8;
   cancel = counter;                             //set cancel equal to the current counter value
   delay (1000);                                //wait a sec to debounce
   
@@ -85,15 +85,17 @@ void motionControl(){
 //OPERATION LOGIC FOR LOOP CONTROLL
 void loopControl(){
   
-  float angle = (loopControl_rDistance * 35.5552); //calculate angle from user configured values to 360degree scale
-  float pause =(((((length_Inches/loopControl_speed)*60)) * 1000000L) )/LENGTH;
+  float angle = (float(loopControl_rDistance) * 35.5552); //calculate angle from user configured values to 360degree scale
+  float pause =(((((length_Inches/loopControl_speed)*60)) * 1000000L) )/float(LENGTH);
   runningPath = true;
   while(runningPath == true){
     determineDirection(angle);
     runStandardOp(pause, angle);
-    moveLeft = !moveLeft;
-    EEPROM.put(moveLeft_eeAddress, moveLeft);
-    delay(50000);
+    if(runningPath == true){
+      moveLeft = !moveLeft;
+      EEPROM.put(moveLeft_eeAddress, moveLeft);
+      delay(50000);
+    }
   }
   finishOp();
 }
@@ -165,7 +167,7 @@ void runStandardOp(float &pause, float &angle){
     cancel = counter;                            //set cancel equal to the current counter value
     delay (1000);                                //wait a sec to debounce
     angleTracking = 0;
-    float myAngle = LENGTH/abs(angle);
+    float myAngle = float(LENGTH)/abs(angle);
     float myPause = pause/14;
     
     for (long i = 0; i < LENGTH; i++){           //this for loop controls all the actual motor controll

@@ -158,10 +158,10 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 
   
   //speedControl EEPROM
-  unsigned int speedControl_speed = 0 ;                //speed of the horizontal slider while in speedControl Mode in inches per minute
+  float speedControl_speed = 0 ;                //speed of the horizontal slider while in speedControl Mode in inches per minute
   #define speedControl_speed_eeAddress 4        //Location of information in eeprom
 
-  byte speedControl_counter = 0;        //speed of the horizontal slider while in speedControl Mode in inches per minute
+  unsigned int speedControl_counter = 0;        //speed of the horizontal slider while in speedControl Mode in inches per minute
   #define speedControl_counter_eeAddress 48     //Location of information in eeprom
   
   int speedControl_rDistance = 0;      //amount in degrees to rotate camera over one slide operation in speed control mode
@@ -200,7 +200,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 
  
   //loopControl EEPROM
-  unsigned int loopControl_speed = 0 ;                //speed of the horizontal slider while in speedControl Mode in inches per minute
+  float loopControl_speed = 0 ;                //speed of the horizontal slider while in speedControl Mode in inches per minute
   #define loopControl_speed_eeAddress 68        //Location of information in eeprom
 
   unsigned int loopControl_counter = 0;        //speed of the horizontal slider while in speedControl Mode in inches per minute
@@ -211,27 +211,25 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 
 
   //CalculatorEEPROM
-  unsigned int frameRate = 0;                
+  byte frameRate = 0;                
   #define frameRate_eeAddress 80        //Location of information in eeprom
 
-  unsigned int timeLapseLength = 0;        
+  byte timeLapseLength = 0;        
   #define timeLapseLength_eeAddress 84      //Location of information in eeprom
   
-  unsigned int finalVideoLength = 0;      
+  byte finalVideoLength = 0;      
   #define finalVideoLength_eeAddress 88    //Location of information in eeprom
 
 
   
 // Stored Values
-  unsigned long LENGTH = length_Inches * Steps_Per_inch;  //converts the user set length into usable steps
+  float LENGTH = length_Inches * Steps_Per_inch;  //converts the user set length into usable steps
   bool changeValue = false;                       //determines whether to configure the operation values or scroll down a menu, this is flipped by clicking encoder while over value
   int changeCounter = 0;                          //if change value is true "changeCounter" will be changed instead of the normal "counter" value
   bool runningPath = false;                       //tracks wether or not an operation is curretly running                     
   bool negative = false;                          //determines weather the value being adjusted can go negative
   unsigned int angleTracking;                            //tracks how many steps the rotation motor has gone
   byte cancel;                                    //is set equal to encoder position and if position changes it cancels
-  //float angle;                                    //saves the desired angle value and makes it global
- // float pause;                                    //delay between steps
   bool stepperEnabled = false;                    //tracks the current power state of the steppers
   int twoTick = 0;
 
@@ -274,7 +272,7 @@ void setup() {
   pinMode (outputB,INPUT);
   aLastState = digitalRead(outputA);                //saves encoders current position
   pinMode(encoderButtonInterruptPin, INPUT_PULLUP); //defines encoder button intterupt pin
-  attachInterrupt(digitalPinToInterrupt(encoderButtonInterruptPin), clicked, RISING);     //if encoderButtonInterruptPin is rising then stop everything and run clicked()
+  attachInterrupt(digitalPinToInterrupt(encoderButtonInterruptPin), clicked, FALLING);     //if encoderButtonInterruptPin is rising then stop everything and run clicked()
   attachInterrupt(digitalPinToInterrupt(encodeRotationrInterruptPin), encoder, CHANGE);   //if encodeRotationrInterruptPin has changed stop everything and run encoder()
   
 //Menu Initioalization

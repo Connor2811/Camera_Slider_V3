@@ -508,6 +508,7 @@ void commonMenus(){
   if (counter <7){
     
     returnFunction();
+  }
     //go to tune Menu
   if (counter <8){
     if(counter == 1){
@@ -535,7 +536,7 @@ void commonMenus(){
     display.println(" Right");
   }
 }
-}
+
 
 void commonMenu(){
   display.clearDisplay();
