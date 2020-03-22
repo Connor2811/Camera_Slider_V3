@@ -42,7 +42,6 @@ void motionControl(){
   float pause =(((motionControl_seconds) * 1000000L) + (motionControl_minutes * 60000000L) + (motionControl_hours * 3600000000L))/float(LENGTH);
   float myPause = (pause - ((25 * 1000000L)/float(LENGTH)))/8;
   cancel = counter;                             //set cancel equal to the current counter value
-  delay (1000);                                //wait a sec to debounce
   
   for (float i = 0; i < LENGTH; i++){           //this for loop controls all the actual motor controll
          
@@ -94,7 +93,7 @@ void loopControl(){
     if(runningPath == true){
       moveLeft = !moveLeft;
       EEPROM.put(moveLeft_eeAddress, moveLeft);
-      delay(10000);
+      delay(5000);
     }
   }
   finishOp();
@@ -122,12 +121,11 @@ void determineDirection(float angle){
 
 //RUNSTANDARDOP LOGIC
 void runStandardOp(float &pause, float &angle){
-
+  runScreen();
   if (runningPath == true){
     digitalWrite(disablePin, LOW);               //enable stepper drivers
     stepperEnabled = true;
     cancel = counter;                            //set cancel equal to the current counter value
-    delay (1000);                                //wait a sec to debounce
     angleTracking = 0;
     float myAngle = float(LENGTH)/abs(angle);
     float myPause = pause/14;
@@ -205,7 +203,6 @@ void runReset(){
   }
  
   cancel = counter;                        //set cancel equal to the current counter value
-  delay (1000);                            //wait a sec to debounce
   for (long i = 0; i < LENGTH;){           //this for loop controls all the actual motor controll
     
     encoder();                             //check if the encoder has changed direction and if it has exit the for loop

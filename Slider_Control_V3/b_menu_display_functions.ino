@@ -668,14 +668,15 @@ void calculator(){
 }
 
 //screen for displaying current status of the path (not working)
-/*void runScreen(){
+void runScreen(){
    menuOptionCount = 5;
   display.clearDisplay();
   display.setTextColor(SSD1306_WHITE);        // Draw white text
-  display.setTextSize(1.5);             // Normal 1:1 pixel scale   
-  display.setCursor(0,0);             // Start at top-left corner
-  display.println(F("!Shot In Progress!"));
-  display.setTextSize(1.75);
+  display.setTextSize(2);             // Normal 1:1 pixel scale   
+  display.setCursor(14,0);             // Start at top-left corner
+  display.println(F("!Running!"));
+  display.setTextSize(1);
+  display.setCursor(15,20);             // Start at top-left corner
   display.println("Scroll to Exit");
   display.display();
-}*/
+}

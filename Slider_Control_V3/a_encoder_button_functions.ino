@@ -43,11 +43,6 @@ void encoder(){
 }
 
 void clicked() {
-      digitalWrite(13,HIGH);
-    delay (100000);
-    digitalWrite(13,LOW);//if the button on the encoder was clicked this function will run
-    delay(1000);   //wait a bit to debounce click
-
   if (menu == homeMenuID){              //if we detected a click while on homemenu go to selected menu and load the eeprom data for that menu
     if (counter == 0){
       menu = timeControlID;

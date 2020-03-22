@@ -287,25 +287,25 @@ void loop() {
   }
   else if (menu == timeControlID){
     menuTimeControl();              //define the camera rotation amount, direction and duration of the shot and the slider will run the planned path
-    if(runningPath = true){
+    if(runningPath == true){
       timeControl();
     }
   }
   else if (menu == speedControlID){
     menuSpeedControl();             //same as timeControll except instead of setting a duration you set a speed in in/min
-    if(runningPath = true){
+    if(runningPath == true){
       speedControl();
     }
   }
   else if (menu == motionControlID){
     menuMotionControl();            //used to do panning tracking shots of objects, plug in the objects location and a duration
-    if(runningPath = true){
+    if(runningPath == true){
      motionControl();
     }    
   }
   else if (menu == loopControlID){
     menuLoopControl();              //set a speed and angle and the slider will loop this plan untill the operation is aborted
-    if(runningPath = true){
+    if(runningPath == true){
       loopControl();
     }    
   }
