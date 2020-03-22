@@ -673,10 +673,10 @@ void runScreen(){
   display.clearDisplay();
   display.setTextColor(SSD1306_WHITE);        // Draw white text
   display.setTextSize(2);             // Normal 1:1 pixel scale   
-  display.setCursor(14,0);             // Start at top-left corner
+  display.setCursor(8,0);             // Start at top-left corner
   display.println(F("!Running!"));
   display.setTextSize(1);
-  display.setCursor(15,20);             // Start at top-left corner
+  display.setCursor(19,20);             // Start at top-left corner
   display.println("Scroll to Exit");
   display.display();
 }
