@@ -93,7 +93,7 @@ void loopControl(){
     if(runningPath == true){
       moveLeft = !moveLeft;
       EEPROM.put(moveLeft_eeAddress, moveLeft);
-      delay(500);
+      delay(50);
     }
   }
   finishOp();

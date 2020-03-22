@@ -228,6 +228,7 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
   byte cancel;                                    //is set equal to encoder position and if position changes it cancels
   bool stepperEnabled = false;                    //tracks the current power state of the steppers
   int twoTick = 0;                                //is increased or decrease one for every click of the encoder, this makes scroll take two clicks and minimizes mis-spins
+  unsigned long previousMillis = 0;
 
   
 
