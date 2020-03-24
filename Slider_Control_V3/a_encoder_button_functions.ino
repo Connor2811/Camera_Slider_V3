@@ -183,7 +183,7 @@ void clicked() {
       }
       
       else if (counter == 5){                     //if clicked on Run then run the configured operation
-        speedControl();                           //run the operation
+        runningPath = true;                           //run the operation
       }
     }
   
@@ -248,7 +248,6 @@ void clicked() {
       }
       
       else if (counter == 8){                     //if clicked on Run then run the configured operation
-        delay (10000);                            //give it a second to debounce the button
         runningPath = true;                          //run the operation
       }
     }
