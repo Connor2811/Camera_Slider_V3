@@ -39,7 +39,7 @@ void motionControl(){
   angleTracking = 0;
   bool flip = true;
   float dTravled = 0;
-  float pause =(((motionControl_seconds) * 1000000L) + (motionControl_minutes * 60000000L) + (motionControl_hours * 3600000000L))/float(LENGTH);
+  float pause =((float(motionControl_seconds) * 1000000L) + float(motionControl_minutes) * 60000000L) + float(motionControl_hours) * 3600000000L))/float(LENGTH);
   float myPause = (pause - ((25 * 1000000L)/float(LENGTH)))/8;
   cancel = counter;                             //set cancel equal to the current counter value
   
@@ -129,6 +129,7 @@ void runStandardOp(float &pause, float &angle){
     angleTracking = 0;
     float myAngle = float(LENGTH)/abs(angle);
     float myPause = pause/14;
+    float ramp = 1000;
     
     for (long i = 0; i < LENGTH; i++){           //this for loop controls all the actual motor controll
       encoder();                                 //check if the encoder has changed direction and if it has exit the for loop
@@ -149,9 +150,17 @@ void runStandardOp(float &pause, float &angle){
         digitalWrite( horizontalStepPin, HIGH);  
         digitalWrite(horizontalStepPin, LOW);    
       }
-      
-      for(long i=0; i < myPause; i++){
-        delayMicroseconds(8);
+
+      if (ramp >= myPause){
+        for(long i=0; i < ramp; i++){
+          delayMicroseconds(8);
+        }
+        ramp--;
+      }
+      else{
+        for(long i=0; i < myPause; i++){
+          delayMicroseconds(8);
+        }
       }    
     }
   }
