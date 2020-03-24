@@ -6,7 +6,7 @@
 void timeControl(){
  
   float angle = (float(timeControl_rDistance) * 35.5552); //calculate angle from user configured values to 360degree scale
-  float pause =(((timeControl_seconds) * 1000000L) + (timeControl_minutes * 60000000L) + (timeControl_hours * 3600000000L))/float(LENGTH);       
+  float pause =((float(timeControl_seconds) * 1000000L) + (float(timeControl_minutes) * 60000000L) + (float(timeControl_hours) * 3600000000L))/float(LENGTH);       
   runningPath = true;
     determineDirection(angle);
     runStandardOp(pause, angle);
@@ -18,7 +18,7 @@ void timeControl(){
 void speedControl(){
   
   float angle = (float(speedControl_rDistance) * 35.5552); //calculate angle from user configured values to 360degree scale
-  float pause =(((((length_Inches/speedControl_speed)*60)) * 1000000L))/float(LENGTH);
+  float pause =(((((float(length_Inches)/speedControl_speed)*60)) * 1000000L))/float(LENGTH);
   runningPath = true;
     determineDirection(angle);
     runStandardOp(pause, angle);
@@ -85,7 +85,7 @@ void motionControl(){
 void loopControl(){
   
   float angle = (float(loopControl_rDistance) * 35.5552); //calculate angle from user configured values to 360degree scale
-  float pause =(((((length_Inches/loopControl_speed)*60)) * 1000000L) )/float(LENGTH);
+  float pause =(((((float(length_Inches)/float(loopControl_speed))*60)) * 1000000L))/float(LENGTH);
   runningPath = true;
   while(runningPath == true){
     determineDirection(angle);
