@@ -108,13 +108,13 @@ static const unsigned char PROGMEM image_data_Logosmall[] = {
 };
 
 //ENCODER
- #define outputA 3      //first data input pin for the encoder
+ #define outputA 2      //first data input pin for the encoder
  #define outputB 4      //second data input pin for the encoder
  int counter = 0;       //tracks how many clicks the encoder has had
  int aState;            //Value to store the current state of the Encoder
  int aLastState;        //Value to store the last state of the Encoder
- const byte encoderButtonInterruptPin = 2;        //inerupt pin attached to the encoders button  
- const byte encodeRotationrInterruptPin = 3;      //interupt pin attached to the encoders rotation
+ const byte encoderButtonInterruptPin = 3;        //inerupt pin attached to the encoders button  
+ const byte encodeRotationrInterruptPin = 2;      //interupt pin attached to the encoders rotation
 
 //STEPPER
 #define horizontalDirPin 5        //direction pin for horizontal motor       

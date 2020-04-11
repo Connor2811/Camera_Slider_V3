@@ -40,7 +40,7 @@ void motionControl(){
   bool flip = true;
   float dTravled = 0;
   float pause =((float(motionControl_seconds) * 1000000L) + (float(motionControl_minutes) * 60000000L) + (float(motionControl_hours) * 3600000000L))/float(LENGTH);
-  float myPause = (pause - ((25 * 1000000L)/float(LENGTH)))/8;
+  float myPause = (pause - ((25 * 1000000L)/float(LENGTH)))/16;
   cancel = counter;                             //set cancel equal to the current counter value
   
   for (float i = 0; i < LENGTH; i++){           //this for loop controls all the actual motor controll
